@@ -1,0 +1,25 @@
+{
+  "name": "guns",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "deck.gl": "^5.2.5",
+    "dotenv": "^5.0.1",
+    "immutable": "^3.8.2",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-map-gl": "^3.2.7",
+    "react-scripts": "1.1.4",
+    "styled-components": "^3.3.0",
+    "tableau-api": "^2.2.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.73.0"
+  }
+}
