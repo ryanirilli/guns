@@ -20,10 +20,13 @@ const CheckboxContainer = styled.div`
 const SliderContainer = styled.div`
   margin-top: 4px;
   .rc-slider-track {
-    background: #303030;
+    background: white;
+  }
+  .rc-slider-rail {
+    background: rgba(255,255,255,0.15);
   }
   .rc-slider-handle {
-    border-color: #303030;
+    border-color: white;
   }
 `;
 
