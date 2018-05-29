@@ -21,6 +21,8 @@ type State = {
 
 type Props = {
   data: Object,
+  showGunLayer?: boolean,
+  showAllOtherCrime?: boolean,
 }
 
 const Container = styled.div`
@@ -72,52 +74,58 @@ class Map extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props) {
-    const {data} = props;
+    const {data, showGunLayer, showAllOtherCrime} = props;
     if (!data.features.length) {
       return null;
     }
 
-    const baseLayer = new GeoJsonLayer({
-      id: 'geojson-layer',
-      data,
-      pickable: false,
-      stroked: false,
-      filled: true,
-      extruded: false,
-      getFillColor: d => {
-        if (Map.isGunCrime(d)) {
-          return [175, 73, 73, 0];
-        }
-        return [255, 255, 255, 50];
-      },
-      getRadius: d => 20,
-      getElevation: d => 0,
-    });
+    const layers = [];
+    if (showAllOtherCrime) {
+      layers.push(new GeoJsonLayer({
+        id: 'geojson-layer',
+        data,
+        pickable: false,
+        stroked: false,
+        filled: true,
+        extruded: false,
+        getFillColor: d => {
+          if (Map.isGunCrime(d)) {
+            return [175, 73, 73, 0];
+          }
+          return [255, 255, 255, 50];
+        },
+        getRadius: d => 20,
+        getElevation: d => 0,
+      }));
+    }
 
-    const gunLayer = new IconLayer({
-      id: 'icon-layer',
-      data: data.features.filter(Map.isGunCrime),
-      pickable: true,
-      iconAtlas: GunImage,
-      iconMapping: {
-        marker: {
-          x: 0,
-          y: 0,
-          width: 23,
-          height: 23,
-          anchorY: 5,
-          mask: false
+    if (showGunLayer) {
+      layers.push(new IconLayer({
+        id: 'icon-layer',
+        data: data.features.filter(Map.isGunCrime),
+        pickable: true,
+        iconAtlas: GunImage,
+        iconMapping: {
+          marker: {
+            x: 0,
+            y: 0,
+            width: 23,
+            height: 23,
+            anchorY: 5,
+            mask: false
+          }
+        },
+        sizeScale: 15,
+        getPosition: d => d.geometry.coordinates,
+        getIcon: d => 'marker',
+        getSize: d => 5,
+        onClick(info) {
+          console.log(info);
         }
-      },
-      sizeScale: 15,
-      getPosition: d => d.geometry.coordinates,
-      getIcon: d => 'marker',
-      getSize: d => 5,
-      onClick(info) {
-        console.log(info);
-      }
-    });
-    return {layers: [baseLayer, gunLayer]};
+      }));
+    }
+
+    return {layers};
   }
 
   render(): React.Node {

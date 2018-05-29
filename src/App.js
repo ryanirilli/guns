@@ -4,12 +4,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Map from './components/Map.react';
 import MapMainContent from './components/MapMainContent.react';
+import Checkbox from './components/Checkbox.react';
 import Slider from 'rc-slider';
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;  
   position: relative;
+`;
+
+const CheckboxContainer = styled.div`
+  margin-top: 20px;  
 `;
 
 const SliderContainer = styled.div`
@@ -25,7 +30,7 @@ const SliderContainer = styled.div`
 const CurrentYear = styled.div`
   text-align: left;
   font-weight: 800;
-  font-size: 24px;
+  font-size: 20px;
   margin-top: 24px;
 `;
 
@@ -34,7 +39,9 @@ type Props = {}
 type State = {
   layersData: Object,
   startYear: number,
-  cache: Object
+  cache: Object,
+  showGunLayer: boolean,
+  showAllOtherCrime: boolean,
 }
 
 class App extends Component<Props, State> {
@@ -44,7 +51,9 @@ class App extends Component<Props, State> {
       "features": []
     },
     startYear: 2017,
-    cache: {}
+    cache: {},
+    showGunLayer: true,
+    showAllOtherCrime: true,
   };
 
   componentDidMount() {
@@ -86,17 +95,28 @@ class App extends Component<Props, State> {
   };
 
   render() {
+    const {showGunLayer, showAllOtherCrime, startYear, layersData} = this.state;
     return (
       <Container>
         <MapMainContent>
-          <CurrentYear>{this.state.startYear}</CurrentYear>
+          <CheckboxContainer>
+            <Checkbox isChecked={showGunLayer}
+                      label="Show gun related reports"
+                      onToggle={val => this.setState({showGunLayer: val})} />
+            <Checkbox isChecked={showAllOtherCrime}
+                      label="Show all other crime"
+                      onToggle={val => this.setState({showAllOtherCrime: val})} />
+          </CheckboxContainer>
+          <CurrentYear>{startYear}</CurrentYear>
           <SliderContainer>
-            <Slider min={2009} max={2018}
-                   defaultValue={2017}
-                   onChange={val => this.setState({startYear: val})} />
+            <Slider min={2010} max={2017}
+                    defaultValue={2017}
+                    onChange={val => this.setState({startYear: val})} />
           </SliderContainer>
         </MapMainContent>
-        <Map data={this.state.layersData} />
+        <Map data={layersData}
+             showGunLayer={showGunLayer}
+             showAllOtherCrime={showAllOtherCrime} />
       </Container>
     );
   }
