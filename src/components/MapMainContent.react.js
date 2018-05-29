@@ -2,11 +2,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import {H2} from '../styles/Headings';
+import {PadMain} from '../styles/Padding';
+
 const Container = styled.div`
   position: absolute;
-  width: 500px;
-  min-height: 300px;
-  background: white;
+  width: 400px;  
+  background: #f5f5f5;
   left: 32px;
   top: 32px;
   z-index: 1;
@@ -14,9 +16,18 @@ const Container = styled.div`
   border-radius: 4px;
 `;
 
-class MapMainContent extends React.Component<{}> {
+type Props = {
+  children: ?React.Node | ?Array<React.Node>
+}
+
+class MapMainContent extends React.Component<Props> {
   render() {
-    return <Container/>
+    return <Container>
+      <PadMain>
+        <H2>Seattle Police Department <span>911 Incident Response</span></H2>
+        {this.props.children}
+      </PadMain>
+    </Container>
   }
 }
 

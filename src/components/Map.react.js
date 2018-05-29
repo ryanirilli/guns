@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
-import DeckGL, {GeoJsonLayer, IconLayer} from 'deck.gl';
+import DeckGL, {GeoJsonLayer, IconLayer, GridLayer} from 'deck.gl';
 import MapGL from 'react-map-gl';
 import GunImage from '../images/gun@2x.png';
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -83,18 +83,15 @@ class Map extends React.Component<Props, State> {
       pickable: false,
       stroked: false,
       filled: true,
-      extruded: true,
-      lineWidthScale: 20,
-      lineWidthMinPixels: 2,
+      extruded: false,
       getFillColor: d => {
         if (Map.isGunCrime(d)) {
           return [175, 73, 73, 0];
         }
-        return [197, 197, 197, 100];
+        return [255, 255, 255, 50];
       },
-      getRadius: d => 40,
-      getLineWidth: d => 1,
-      getElevation: d => 30,
+      getRadius: d => 20,
+      getElevation: d => 0,
     });
 
     const gunLayer = new IconLayer({
@@ -106,17 +103,16 @@ class Map extends React.Component<Props, State> {
         marker: {
           x: 0,
           y: 0,
-          width: 36,
-          height: 26,
+          width: 23,
+          height: 23,
           anchorY: 5,
-          mask: true
+          mask: false
         }
       },
-      sizeScale: 10,
+      sizeScale: 15,
       getPosition: d => d.geometry.coordinates,
       getIcon: d => 'marker',
       getSize: d => 5,
-      getColor: d => [186, 42, 61, 255],
       onClick(info) {
         console.log(info);
       }

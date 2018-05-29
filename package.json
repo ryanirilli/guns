@@ -6,6 +6,7 @@
     "deck.gl": "^5.2.5",
     "dotenv": "^5.0.1",
     "immutable": "^3.8.2",
+    "rc-slider": "^8.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-map-gl": "^3.2.7",
