@@ -2,13 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a265b4d-6e81-4487-aa89-77881910a844" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Checkbox.react.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/action-types/motherJonesMassShootings.actionTypes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/actions/motherJonesMassShootings.actions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ClientRect.react.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/GenderIcon.react.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/MotherJonesMassShootings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/reducers/motherJonesMassShootings.reducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Colors.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Foundation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Layouts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map.react.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map.react.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MapMainContent.react.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MapMainContent.react.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/Headings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Headings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,29 +33,35 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6654385">
+    <splitter split-orientation="horizontal" split-proportion="0.4688172">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/App.js">
+          <file leaf-file-name="motherJonesMassShootings.actionTypes.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/action-types/motherJonesMassShootings.actionTypes.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-785">
-                  <caret line="32" column="18" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+                <state relative-caret-position="90">
+                  <caret line="6" column="67" lean-forward="true" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MotherJonesMassShootings.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/components/MotherJonesMassShootings.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="440">
+                  <caret line="261" column="73" selection-start-line="261" selection-start-column="73" selection-end-line="261" selection-end-column="73" />
                   <folding>
-                    <element signature="e#9#45#0" expanded="true" />
+                    <element signature="e#9#40#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Checkbox.react.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/components/Checkbox.react.js">
+          <file leaf-file-name="Colors.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/styles/Colors.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#9#40#0" expanded="true" />
-                  </folding>
+                <state>
+                  <caret column="37" lean-forward="true" selection-start-column="37" selection-end-column="37" />
                 </state>
               </provider>
             </entry>
@@ -51,8 +69,8 @@
           <file leaf-file-name="MapMainContent.react.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/components/MapMainContent.react.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+                <state relative-caret-position="630">
+                  <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
                   <folding>
                     <element signature="e#9#40#0" expanded="true" />
                   </folding>
@@ -60,29 +78,55 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/public/index.html">
+          <file leaf-file-name="Mother Jones - Mass Shootings Database, 1982 - 2018 - Sheet1.csv" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/public/Mother Jones - Mass Shootings Database, 1982 - 2018 - Sheet1.csv">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="77" selection-start-line="21" selection-start-column="77" selection-end-line="21" selection-end-column="77" />
+                <state>
+                  <caret selection-end-line="1" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Headings.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/styles/Headings.js">
+          <file leaf-file-name="GenderIcon.react.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/components/GenderIcon.react.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="62" lean-forward="true" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
+                  <folding>
+                    <element signature="e#9#40#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Padding.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/styles/Padding.js">
+          <file leaf-file-name="female.svg" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/images/female.svg">
+              <provider selected="true" editor-type-id="images" />
+            </entry>
+          </file>
+          <file leaf-file-name="xy-plot.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/xy-plot.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+                <state relative-caret-position="394">
+                  <caret line="135" column="38" lean-forward="true" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="x-axis.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/axis/x-axis.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="418">
+                  <caret line="28" column="8" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="axis.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/axis/axis.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="623">
+                  <caret line="73" column="11" selection-start-line="73" selection-start-column="2" selection-end-line="73" selection-end-column="11" />
                 </state>
               </provider>
             </entry>
@@ -90,38 +134,89 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
-          <file leaf-file-name="Map.react.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/components/Map.react.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="166">
-                  <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="24" selection-end-column="30" />
-                  <folding>
-                    <element signature="e#9#40#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
+        <splitter split-orientation="vertical" split-proportion="0.5">
+          <split-first>
+            <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+              <file leaf-file-name="Map.react.js" pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/src/components/Map.react.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="303">
+                      <caret line="68" column="54" lean-forward="true" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="54" />
+                      <folding>
+                        <element signature="e#9#40#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="motherJonesMassShootings.actions.js" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/actions/motherJonesMassShootings.actions.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="242">
+                      <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+                      <folding>
+                        <element signature="e#0#84#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/App.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="1305">
+                      <caret line="87" column="19" selection-start-line="87" selection-start-column="19" selection-end-line="87" selection-end-column="19" />
+                      <folding>
+                        <element signature="e#9#45#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="motherJonesMassShootings.reducer.js" pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/reducers/motherJonesMassShootings.reducer.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="645">
+                      <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file leaf-file-name="ClientRect.react.js" pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/src/components/ClientRect.react.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="262">
+                      <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+                      <folding>
+                        <element signature="e#9#40#0" expanded="true" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
       </split-second>
     </splitter>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>colorToRGBArray</find>
+      <find>console</find>
+      <find>yDomain</find>
+      <find>xDomain</find>
+      <find>momer</find>
+      <find>sortIncidents</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/node_modules</dir>
+      <dir>$PROJECT_DIR$/node_modules/react-vis/es/plot</dir>
+      <dir>$PROJECT_DIR$/node_modules/react-vis/es</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -132,15 +227,32 @@
       <list>
         <option value="$PROJECT_DIR$/src/TableauEmbed.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/src/styles/Padding.js" />
-        <option value="$PROJECT_DIR$/src/components/Map.react.js" />
+        <option value="$PROJECT_DIR$/src/components/Checkbox.react.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/src/components/MapMainContent.react.js" />
+        <option value="$PROJECT_DIR$/src/styles/Layouts.js" />
+        <option value="$APPLICATION_CONFIG_DIR$/idea.properties" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/components/FiveThirtyEightQuiz.react.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/action-types/motherJonesMassShootings.actionType.js" />
+        <option value="$PROJECT_DIR$/src/styles/Foundation.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/styles/Headings.js" />
-        <option value="$PROJECT_DIR$/src/components/Checkbox.react.js" />
-        <option value="$PROJECT_DIR$/src/components/MapMainContent.react.js" />
-        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/src/images/male.svg" />
+        <option value="$PROJECT_DIR$/src/action-types/motherJonesMassShootings.actionTypes.js" />
+        <option value="$PROJECT_DIR$/src/actions/motherJonesMassShootings.actions.js" />
+        <option value="$PROJECT_DIR$/src/reducers/motherJonesMassShootings.reducer.js" />
+        <option value="$PROJECT_DIR$/src/components/Map.react.js" />
+        <option value="$PROJECT_DIR$/src/contants.js" />
+        <option value="$PROJECT_DIR$/src/components/GenderIcon.react.js" />
+        <option value="$PROJECT_DIR$/src/styles/Colors.js" />
+        <option value="$PROJECT_DIR$/src/components/YearLineChart.react.js" />
+        <option value="$PROJECT_DIR$/src/components/RaceBarChart.react.js" />
+        <option value="$PROJECT_DIR$/src/components/ClientRect.react.js" />
+        <option value="$PROJECT_DIR$/src/components/MotherJonesMassShootings.js" />
       </list>
     </option>
   </component>
@@ -152,7 +264,7 @@
     <service-enabled>true</service-enabled>
     <exe-path>$PROJECT_DIR$/node_modules/flow-bin</exe-path>
     <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
+    <auto-save>false</auto-save>
   </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
@@ -183,11 +295,6 @@
             <path>
               <item name="guns" type="b2602c69:ProjectViewProjectNode" />
               <item name="guns" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="guns" type="b2602c69:ProjectViewProjectNode" />
-              <item name="guns" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -210,6 +317,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="NewWatcherDialog.advanced.open" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.prettier" value="true" />
@@ -217,10 +325,14 @@
     <property name="node.js.selected.package.prettier" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/styles" />
+      <recent name="$PROJECT_DIR$/src/data" />
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -248,7 +360,9 @@
       <option name="presentableId" value="Default" />
       <updated>1526962508842</updated>
       <workItem from="1526962510453" duration="3179000" />
-      <workItem from="1527520694591" duration="27530000" />
+      <workItem from="1527520694591" duration="30431000" />
+      <workItem from="1527733207403" duration="1894000" />
+      <workItem from="1527735463596" duration="52171000" />
     </task>
     <task id="LOCAL-00001" summary="update map">
       <created>1527566401892</created>
@@ -264,11 +378,25 @@
       <option name="project" value="LOCAL" />
       <updated>1527566421342</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update sidebar">
+      <created>1527598898440</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1527598898440</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update narrative">
+      <created>1527601979710</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1527601979710</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30709000" />
+    <option name="totallyTimeSpent" value="87675000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -276,22 +404,22 @@
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32903227" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32903227" />
-      <window_info anchor="bottom" id="Flow" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18203737" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32903227" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32903227" />
+      <window_info anchor="bottom" id="Flow" order="8" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.159132" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
     </layout>
   </component>
@@ -304,63 +432,42 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update map" />
     <MESSAGE value="add ide settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ide settings" />
+    <MESSAGE value="update sidebar" />
+    <MESSAGE value="update narrative" />
+    <option name="LAST_COMMIT_MESSAGE" value="update narrative" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/App.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Checkbox.react.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="41" selection-start-column="41" selection-end-column="41" />
+        <state relative-caret-position="90">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
           <folding>
-            <element signature="e#9#45#0" expanded="true" />
+            <element signature="e#9#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableauEmbed.js">
+    <entry file="file://$PROJECT_DIR$/src/components/MapMainContent.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+          <caret line="21" column="77" selection-start-line="21" selection-start-column="77" selection-end-line="21" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableauEmbed.js">
+    <entry file="file://$PROJECT_DIR$/src/styles/Headings.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-map-gl/dist/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/gun@2x.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="125" lean-forward="true" selection-start-column="31" selection-end-column="125" />
+        <state relative-caret-position="30">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -373,25 +480,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Map.react.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="24" selection-end-column="30" />
+        <state relative-caret-position="270">
+          <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
           <folding>
             <element signature="e#9#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/Headings.js">
+    <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        <state relative-caret-position="60">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-785">
-          <caret line="32" column="18" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+        <state relative-caret-position="375">
+          <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
           <folding>
             <element signature="e#9#45#0" expanded="true" />
           </folding>
@@ -408,13 +518,80 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="77" selection-start-line="21" selection-start-column="77" selection-end-line="21" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Headings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Padding.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/MapMainContent.react.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        <state relative-caret-position="840">
+          <caret line="56" column="76" selection-start-line="56" selection-start-column="76" selection-end-line="56" selection-end-column="76" />
           <folding>
             <element signature="e#9#40#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Map.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="24" selection-end-column="30" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="41" selection-start-column="41" selection-end-column="41" />
+          <folding>
+            <element signature="e#9#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TableauEmbed.js" />
+    <entry file="file://$PROJECT_DIR$/src/TableauEmbed.js" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="125" lean-forward="true" selection-start-column="31" selection-end-column="125" />
         </state>
       </provider>
     </entry>
@@ -422,6 +599,225 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="77" selection-start-line="21" selection-start-column="77" selection-end-line="21" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Checkbox.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/idea.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Layouts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/us-states.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2050" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/gun-violence-deaths.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/cdc_FIREARMS2016.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Padding.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Foundation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/us-state-codes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Headings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/utils/chart-utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/images/male.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/images/female.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/action-types/motherJonesMassShootings.actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="67" lean-forward="true" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actions/motherJonesMassShootings.actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/Mother Jones - Mass Shootings Database, 1982 - 2018 - Sheet1.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/Colors.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="37" lean-forward="true" selection-start-column="37" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/axis/x-axis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="28" column="8" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/axis/axis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="73" column="11" selection-start-line="73" selection-start-column="2" selection-end-line="73" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/GenderIcon.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="62" lean-forward="true" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-vis/es/plot/xy-plot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="135" column="38" lean-forward="true" selection-start-line="135" selection-start-column="38" selection-end-line="135" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="87" column="19" selection-start-line="87" selection-start-column="19" selection-end-line="87" selection-end-column="19" />
+          <folding>
+            <element signature="e#9#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RaceBarChart.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/motherJonesMassShootings.reducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MapMainContent.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Map.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="68" column="54" lean-forward="true" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="54" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ClientRect.react.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MotherJonesMassShootings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="261" column="73" selection-start-line="261" selection-start-column="73" selection-end-line="261" selection-end-column="73" />
+          <folding>
+            <element signature="e#9#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
