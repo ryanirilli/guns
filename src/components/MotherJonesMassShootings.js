@@ -156,6 +156,7 @@ class MotherJonesMassShootings extends React.Component<Props> {
 
     return (
       <React.Fragment>
+        {this.renderFatalaties()}
         <GenderContainer>
           <div>
             <GenderIcon
@@ -256,6 +257,19 @@ class MotherJonesMassShootings extends React.Component<Props> {
       </div>
     );
   };
+
+  renderFatalaties() {
+    return <div>
+      <div>
+      <div>{d3.sum(this.getFilteredResults(), d => d.fatalities)}</div>
+      <div>Fatalaties</div>
+      </div>
+      <div>
+      <div>{d3.sum(this.getFilteredResults(), d => d.injured)}</div>
+      <div>Injured</div>
+      </div>
+    </div>
+  }
 
   handleRaceSelect = (datapoint): void => {
     const { selectedRace } = this.props;
