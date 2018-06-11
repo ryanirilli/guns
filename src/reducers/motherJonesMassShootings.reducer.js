@@ -1,5 +1,5 @@
 import * as motherJones from "../action-types/motherJonesMassShootings.actionTypes";
-
+import * as d3 from "d3";
 const initialState = {
   isLoading: false,
   data: [],
@@ -54,6 +54,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedVenue: action.selectedVenue
+      };
+    case motherJones.RESET_FILTERS:
+      const minYear = parseInt(d3.min(state.data, d => d.moment.format("YYYY")), 10);
+      const maxYear = parseInt(d3.max(state.data, d => d.moment.format("YYYY")), 10);
+      return {
+        ...state,
+        prevSign: null,
+        selectedVenue: null,        
+        selectedRace: null,
+        selectedYearRange: [minYear, maxYear],
+        selectedGender: {
+          male: true,
+          female: true
+        },
       };
     default:
       return initialState;

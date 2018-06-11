@@ -13,7 +13,7 @@ import MotherJonesMassShootings from "./components/MotherJonesMassShootings";
 import { AbsoluteFill } from "./styles/Layouts";
 import { H1, P } from "./styles/Headings";
 import { Page } from "./styles/Layouts";
-import { activeColor, mainBgColor } from "./styles/Colors";
+import { activeColor, mainBgColor, inactiveColor } from "./styles/Colors";
 
 import MainBg from "./images/samuel-branch-442129-unsplash.jpg";
 
@@ -53,13 +53,26 @@ const FlagImg = styled.img`
   width: 100%;
 `;
 
-const PlayArrow = styled.div`
+const GoToDataButton = styled.button`
   background: white;
-  padding: 20px;
+  padding: 10px 20px;
   color: ${activeColor};
   display: inline-block;
   border-radius: 20px;
   margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+  :hover {
+    background ${inactiveColor}
+  }
+  :active {
+    box-shadow: none;
+    outline:0;
+  }
+  :focus {    
+    outline:0;
+  }
 `;
 
 type Props = {};
@@ -75,11 +88,12 @@ class App extends Component<Props, State> {
   mainBgEl: ?HTMLDivElement;
   titleEl: ?HTMLElement;
   contentEl: ?HTMLElement;
+  goToDataButtonEl: ?HTMLElement;
 
   state: State = {
     isTypeKitLoaded: false,
-    hasIntroLoaded: false,
-    isShowingDashboard: false
+    hasIntroLoaded: true,
+    isShowingDashboard: true
   };
 
   componentDidMount() {
@@ -99,7 +113,7 @@ class App extends Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     const { hasIntroLoaded, isTypeKitLoaded } = this.state;
     if (hasIntroLoaded && isTypeKitLoaded && !this.hasAnimatedIn) {
-      this.animateIn();
+      //this.animateIn();
     }
   }
 
@@ -133,9 +147,9 @@ class App extends Component<Props, State> {
                     lacus.
                   </IntroText>
                   <div>
-                    <PlayArrow onClick={this.showDashboard}>
+                    <GoToDataButton onClick={this.showDashboard} innerRef={el => (this.goToDataButtonEl = el)}>
                       Explore the Data
-                    </PlayArrow>
+                    </GoToDataButton>
                   </div>
                 </IntroContent>
               </Intro>
@@ -166,13 +180,44 @@ class App extends Component<Props, State> {
     );
   }
 
-  showDashboard = () => {
-    this.setState({ isShowingDashboard: true });
+  showDashboard = async () => {
+    const { mainBgEl, titleEl, contentEl, goToDataButtonEl } = this;
+    anime({
+      targets: goToDataButtonEl,
+      opacity: [1, 0],
+      translateY: [0, 20],
+      easing: "easeOutCubic",
+      duration: 1000,      
+    });
+    anime({
+      targets: contentEl,
+      opacity: [1, 0],
+      translateY: [0, 20],
+      easing: "easeOutCubic",
+      duration: 1000,
+      delay: 500
+    });
+    anime({
+      targets: titleEl,
+      opacity: [1, 0],
+      translateY: [0, 20],
+      easing: "easeOutCubic",
+      duration: 1000,
+      delay: 600
+    });
+    await anime({
+      targets: mainBgEl,
+      opacity: [1, 0],
+      easing: "easeInOutCubic",
+      duration: 1000,
+      delay: 800
+    }).finished;
+    this.setState({ isShowingDashboard: true });        
   };
 
   animateIn() {
     this.hasAnimatedIn = true;
-    const { mainBgEl, titleEl, contentEl } = this;
+    const { mainBgEl, titleEl, contentEl, goToDataButtonEl } = this;
     anime({
       targets: mainBgEl,
       opacity: [0, 1],
@@ -194,6 +239,14 @@ class App extends Component<Props, State> {
       easing: "easeOutCubic",
       duration: 1000,
       delay: 600
+    });
+    anime({
+      targets: goToDataButtonEl,
+      opacity: [0, 1],
+      translateY: [20, 0],
+      easing: "easeOutCubic",
+      duration: 1000,
+      delay: 800
     });
   }
 }

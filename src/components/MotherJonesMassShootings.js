@@ -46,6 +46,7 @@ let summaryContainerEl = null;
 let raceAndYearLabelsEl = null;
 let filtersEl = null;
 let prevSignsLabelsEl = null;
+let titleContainerEl = null;
 
 const yesColor = colorManager.hex();
 const unknownColor = colorManager.lighten(0.6).hex();
@@ -198,11 +199,11 @@ const SummaryContainer = styled.div`
 const Stat = styled.div`
   font-weight: bold;
   font-size: 3rem;
-  color: ${primaryTextColor};
+  color: ${colorManager.lighten(0.3).hex()};
 `;
 
 const MainLabel = styled.span`
-  color: ${primaryTextColor};
+  color: ${colorManager.darken(0.5).hex()};
   font-weight: 100;
   font-size: 0.875rem;
   font-family: monospace;
@@ -256,7 +257,37 @@ const Legend = styled(FlexContainer)`
   justify-content: center;
 `;
 
-const RadarContainer = styled(Width50)``;
+const TitleContainer = styled.div`
+  color: ${primaryTextColor};
+  text-align: center;
+`;
+
+const ResetFiltersContainer = styled.button`
+  position: fixed;
+  left: 25vw;
+  transform: translateX(-50%);  
+  bottom: 40px;
+  z-index: 999;
+  background: white;
+  padding: 10px 20px;
+  color: ${activeColor};
+  display: inline-block;
+  border-radius: 20px;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+  :hover {
+    background ${inactiveColor}
+  }
+  :active {
+    box-shadow: none;
+    outline:0;
+  }
+  :focus {    
+    outline:0;
+  }
+`;
 
 type Props = {
   data: Array<Object>,
@@ -274,14 +305,16 @@ type Props = {
   prevSign: ?string,
   setPrevSign: (?string) => void,
   selectedVenue: ?string,
-  setSelectedVenue: (?string) => void
+  setSelectedVenue: (?string) => void,
+  resetFilters: () => void
 };
 
 type State = {
   summaryHeight: number,
   raceAndYearLabelsHeight: number,
   filtersHeight: number,
-  prevSignsLabelsHeight: number
+  prevSignsLabelsHeight: number,
+  titleContainerHeight: number
 };
 
 class MotherJonesMassShootings extends React.Component<Props, State> {
@@ -291,7 +324,8 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     summaryHeight: 0,
     raceAndYearLabelsHeight: 0,
     filtersHeight: 0,
-    prevSignsLabelsHeight: 0
+    prevSignsLabelsHeight: 0,
+    titleContainerHeight: 0
   };
 
   componentDidMount() {
@@ -311,11 +345,15 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     const prevSignsLabelsHeight = prevSignsLabelsEl
       ? prevSignsLabelsEl.getBoundingClientRect().height
       : 0;
+    const titleContainerHeight = titleContainerEl
+      ? titleContainerEl.getBoundingClientRect().height
+      : 0;
     return {
       summaryHeight,
       raceAndYearLabelsHeight,
       filtersHeight,
-      prevSignsLabelsHeight
+      prevSignsLabelsHeight,
+      titleContainerHeight
     };
   }
 
@@ -331,9 +369,10 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
 
   render(): React.Node {
     return (
-      <Container>
+      <Container>        
         <MapContainer>{this.renderMap()}</MapContainer>
         <ContentContainer>
+          {this.renderResetFilters()}
           <Content innerRef={el => (this.contentEl = el)}>
             {this.renderSelectedState()}
             {this.renderOverview()}
@@ -345,7 +384,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
 
   renderOverview() {
     return (
-      <OverviewContainer base={BASE_SPACING_UNIT * CONTENT_PADDING_MULTIPLIER}>
+      <OverviewContainer base={BASE_SPACING_UNIT * CONTENT_PADDING_MULTIPLIER}>        
         <ClientRect
           container={FlexFill}
           render={cr => {
@@ -353,18 +392,28 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
               summaryHeight,
               raceAndYearLabelsHeight,
               filtersHeight,
-              prevSignsLabelsHeight
+              prevSignsLabelsHeight,
+              titleContainerHeight
             } = this.state;
             const chartHeight =
               (cr.height -
                 summaryHeight -
                 raceAndYearLabelsHeight -
                 filtersHeight -
+                titleContainerHeight -
                 prevSignsLabelsHeight) /
                 2 -
-              20;
+              60;
             return (
               <div>
+                <TitleContainer innerRef={el => (titleContainerEl = el)}>
+                  <PadMain top={BASE_SPACING_UNIT * 4} bottom={0}>
+                    <H1>
+                      Mass Shooting Incidents
+                    </H1>
+                    <P>1982 to 2018 Data provided by Mother Jones</P>
+                  </PadMain>
+                </TitleContainer>
                 {this.renderSummary()}
                 <PadMain
                   innerRef={el => (raceAndYearLabelsEl = el)}
@@ -433,7 +482,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
                     render={cr => this.renderMentalHealthChart(cr, chartHeight)}
                   />
                   <ClientRect
-                    container={RadarContainer}
+                    container={Width50}
                     render={cr => this.renderVenueChart(cr, chartHeight)}
                   />
                 </FlexContainer>
@@ -451,6 +500,16 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
       return item.color;
     }
     return prevSign === item.name ? item.color : inactiveColor;
+  }
+
+  renderResetFilters() {
+    return <ResetFiltersContainer onClick={e => {
+      e.preventDefault();
+      this.props.resetFilters();
+      return false;
+    }}>
+      Reset Filters
+    </ResetFiltersContainer>
   }
 
   renderMap() {
@@ -592,19 +651,19 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
       <ChartAlignPadding>
         <GenderContainer>
           <div>
+            <MainLabel>Male</MainLabel>
             <GenderIcon
               onClick={e => this.toggleGender("male")}
               gender="male"
               isActive={selectedGender.male}
-            />
-            <MainLabel>Male</MainLabel>
+            />            
           </div>
           <div>
+            <MainLabel>female</MainLabel>
             <GenderIcon
               onClick={e => this.toggleGender("female")}
               isActive={selectedGender.female}
-            />
-            <MainLabel>female</MainLabel>
+            />            
           </div>
         </GenderContainer>
       </ChartAlignPadding>
@@ -838,26 +897,26 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
       <PadMain bottom={0} innerRef={el => (summaryContainerEl = el)}>
         <SummaryContainer>
           <div>
+            <MainLabel>Incidents</MainLabel>
             <Stat>
               {this.formatNumber(d3.sum(this.getFilteredResults(), d => 1))}
-            </Stat>
-            <MainLabel>Incidents</MainLabel>
+            </Stat>            
           </div>
           <div>
+            <MainLabel>Fatalaties</MainLabel>
             <Stat>
               {this.formatNumber(
                 d3.sum(this.getFilteredResults(), d => d.fatalities)
               )}
-            </Stat>
-            <MainLabel>Fatalaties</MainLabel>
+            </Stat>            
           </div>
           <div>
+            <MainLabel>Injured</MainLabel>
             <Stat>
               {this.formatNumber(
                 d3.sum(this.getFilteredResults(), d => d.injured)
               )}
-            </Stat>
-            <MainLabel>Injured</MainLabel>
+            </Stat>            
           </div>
         </SummaryContainer>
       </PadMain>

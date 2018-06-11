@@ -47,6 +47,10 @@ export const setPrevSign = prevSign => ({
   prevSign
 });
 
+export const resetFilters = () => ({
+  type: motherJones.RESET_FILTERS,
+});
+
 export const fetchData = () => {
   return async dispatch => {
     const PUBLIC_URL = process.env.PUBLIC_URL || "";
