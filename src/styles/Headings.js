@@ -26,4 +26,5 @@ export const P = styled.p`
   font-size: 14px;
   line-height: 1.4;
   margin-top: 4px;
+  font-family: monospace;
 `;

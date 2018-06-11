@@ -1,0 +1,14 @@
+<changelist name="final_project" date="1528347379159" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/final_project/shelved.patch" />
+  <option name="DESCRIPTION" value="final project" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/images/flag.jpg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/final_project/flag.jpg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/images/flag@2x.jpg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/final_project/flag@2x.jpg" />
+  </binary>
+</changelist>

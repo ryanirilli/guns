@@ -4,31 +4,73 @@ import * as d3 from "d3";
 import { GeoJsonLayer } from "deck.gl";
 import { connect } from "react-redux";
 import isEqual from "react-fast-compare";
+import { Range } from "rc-slider";
+import anime from "animejs";
 import {
   XYPlot,
   VerticalBarSeries,
   XAxis,
   YAxis,
-  VerticalGridLines,
   HorizontalGridLines,
-  LineSeries
+  AreaSeries
 } from "react-vis";
-import "../../node_modules/react-vis/dist/style.css";
+import { PieChart, Pie, Cell } from "recharts";
+import Color from "color";
+
+import numbro from "numbro";
 import idx from "idx";
 
 import Map from "../components/Map.react";
 import GenderIcon from "../components/GenderIcon.react";
 import ClientRect from "../components/ClientRect.react";
 
-import { activeColor, inactiveColor } from "../styles/Colors";
+import {
+  activeColor,
+  inactiveColor,
+  primaryTextColor,
+  mainBgColor
+} from "../styles/Colors";
+import "../../node_modules/react-vis/dist/style.css";
 import { BASE_SPACING_UNIT } from "../styles/Foundation";
 import { PadMain } from "../styles/Padding";
 import { H1, H2, P } from "../styles/Headings";
+import { AbsoluteFill, FlexFill } from "../styles/Layouts";
 
 import * as motherJonesActions from "../actions/motherJonesMassShootings.actions";
 
 import USStates from "../data/us-states";
 import styled from "styled-components";
+
+const colorManager = Color(activeColor);
+let summaryContainerEl = null;
+let raceAndYearLabelsEl = null;
+let filtersEl = null;
+let prevSignsLabelsEl = null;
+
+const yesColor = colorManager.hex();
+const unknownColor = colorManager.lighten(0.6).hex();
+const noColor = colorManager.darken(0.4).hex();
+const COLORS = [unknownColor, yesColor, noColor];
+const COLOR_LEGEND = COLORS.map((color, i) => {
+  let name;
+  switch (i) {
+    case 0:
+      name = "unclear";
+      break;
+    case 1:
+      name = "yes";
+      break;
+    default:
+      name = "no";
+      break;
+  }
+  return {
+    color,
+    name
+  };
+});
+
+const CONTENT_PADDING_MULTIPLIER = 0;
 
 const Container = styled.div`
   display: flex;
@@ -44,17 +86,60 @@ const MapContainer = styled.div`
 const ContentContainer = styled.div`
   width: 50vw;
   height: 100vh;
-  background: #f5f5f5;
+  background: ${mainBgColor};
+  position: relative;
+  box-shadow: 0 0 15px #dadada;
+  overflow: hidden;
+`;
+
+const Content = styled(AbsoluteFill)``;
+
+const Incidents = styled.div`
+  border-left: 4px solid;
+  padding-left: 24px;
+  position: relative;
+  :after {
+    content: "";
+    width: ${BASE_SPACING_UNIT * 3}px;
+    height: ${BASE_SPACING_UNIT * 3}px;
+    border-radius: ${BASE_SPACING_UNIT * 3}px;
+    position: absolute;
+    background: ${mainBgColor};
+    top: -${BASE_SPACING_UNIT * 3}px;
+    left: -${BASE_SPACING_UNIT * 3}px;
+    border: 3px solid ${primaryTextColor};
+  }
 `;
 
 const IncidentContainer = styled.div`
   margin-bottom: ${BASE_SPACING_UNIT * 16}px;
+  position: relative;
+  top: -${BASE_SPACING_UNIT * 3}px;
+  max-width: 500px;
+  :not(:first-child):after {
+    content: "";
+    width: ${BASE_SPACING_UNIT * 3}px;
+    height: ${BASE_SPACING_UNIT * 3}px;
+    border-radius: ${BASE_SPACING_UNIT * 3}px;
+    position: absolute;
+    background: ${mainBgColor};
+    top: 0;
+    left: -${BASE_SPACING_UNIT * 8.75}px;
+    border: 3px solid ${primaryTextColor};
+  }
 `;
 
 const SelectedStateContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  left: 100%;
+  top: 0%;
+  background: #f1f1f1;
+  color: ${primaryTextColor};
+  position: absolute;
+  z-index: 1;
 `;
 
 const SelectedStateContent = styled.div`
@@ -62,27 +147,119 @@ const SelectedStateContent = styled.div`
 `;
 
 const GenderContainer = styled.div`
-  display: flex;
+  display: grid;
   max-width: 100px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 16px;
   > div {
-    flex-basis: 50%;
-  }
-  > div:first-child {
-    padding-right: 5px;
+    min-width: 44px;
+    text-align: center;
   }
 `;
 
-const GraphsContainer = styled.div`
-  height: 300px;
+const FlexContainer = styled.div`
   display: flex;
 `;
 
-const GraphContainer = styled.div`
-  flex-basis: 50%;
+const Width50 = styled.div`
+  width: 50%;
 `;
+
+const SliderContainer = styled.div`
+  margin-top: 4px;
+  .rc-slider-track {
+    background: ${activeColor};
+  }
+  .rc-slider-rail {
+    background: ${inactiveColor};
+  }
+  .rc-slider-handle {
+    border-color: ${activeColor};
+    background: ${activeColor};
+  }
+`;
+
+const SummaryContainer = styled.div`
+  display: flex;
+  border: 1px solid ${inactiveColor};
+  border-radius: 4px;
+  background: #efedec;
+  > div {
+    border-right: 1px solid ${inactiveColor};
+    :last-child {
+      border-right: none;
+    }
+    padding: 16px 0;
+    flex: 1;
+    text-align: center;
+  }
+`;
+
+const Stat = styled.div`
+  font-weight: bold;
+  font-size: 3rem;
+  color: ${primaryTextColor};
+`;
+
+const MainLabel = styled.span`
+  color: ${primaryTextColor};
+  font-weight: 100;
+  font-size: 0.875rem;
+  font-family: monospace;
+`;
+
+const ChartAlignPadding = styled.div`
+  padding-left: ${BASE_SPACING_UNIT * 8}px;
+  padding-right: ${BASE_SPACING_UNIT * 4}px;
+`;
+
+const LabelContainer = styled(FlexContainer)`
+  text-align: center;
+`;
+
+const FiltersContainer = styled(FlexContainer)`
+  text-align: center;
+  padding: ${BASE_SPACING_UNIT * 3}px;
+  border-top: 1px solid ${inactiveColor};
+  border-bottom: 1px solid ${inactiveColor};
+`;
+
+const YearFilterContainer = styled(Width50)`
+  padding-top: ${BASE_SPACING_UNIT * 3}px;
+`;
+
+const CenterLabel = styled(MainLabel)`
+  text-align: center;
+`;
+const OverviewContainer = styled(PadMain)`
+  height: calc(
+    100vh - ${BASE_SPACING_UNIT * (CONTENT_PADDING_MULTIPLIER * 2)}px
+  );
+`;
+
+const Dot = styled.div`
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background: ${props => props.color};
+  margin-right: ${BASE_SPACING_UNIT}px;
+  position: relative;
+  top: ${BASE_SPACING_UNIT}px;
+`;
+
+const InlineBlock = styled.div`
+  display: inline-block;
+`;
+
+const Legend = styled(FlexContainer)`
+  justify-content: center;
+`;
+
+const RadarContainer = styled(Width50)``;
 
 type Props = {
-  rawData: Array<Object>,
+  data: Array<Object>,
   data: Array<Object>,
   fetchData: () => void,
   selectedState: ?Object,
@@ -91,21 +268,208 @@ type Props = {
   setSelectedRace: (?string) => void,
   setMotherJonesFilteredData: (Array<Object>) => void,
   selectedGender: Object,
-  setSelectedGender: Object => void
+  setSelectedGender: Object => void,
+  selectedYearRange: Array<number>,
+  setYearRange: (Array<number>) => void,
+  prevSign: ?string,
+  setPrevSign: (?string) => void,
+  selectedVenue: ?string,
+  setSelectedVenue: (?string) => void
 };
 
-class MotherJonesMassShootings extends React.Component<Props> {
+type State = {
+  summaryHeight: number,
+  raceAndYearLabelsHeight: number,
+  filtersHeight: number,
+  prevSignsLabelsHeight: number
+};
+
+class MotherJonesMassShootings extends React.Component<Props, State> {
+  contentEl: ?HTMLDivElement;
+
+  state: State = {
+    summaryHeight: 0,
+    raceAndYearLabelsHeight: 0,
+    filtersHeight: 0,
+    prevSignsLabelsHeight: 0
+  };
+
   componentDidMount() {
     this.props.fetchData();
   }
 
+  static getDerivedStateFromProps(props) {
+    const summaryHeight = summaryContainerEl
+      ? summaryContainerEl.getBoundingClientRect().height
+      : 0;
+    const raceAndYearLabelsHeight = raceAndYearLabelsEl
+      ? raceAndYearLabelsEl.getBoundingClientRect().height
+      : 0;
+    const filtersHeight = filtersEl
+      ? filtersEl.getBoundingClientRect().height
+      : 0;
+    const prevSignsLabelsHeight = prevSignsLabelsEl
+      ? prevSignsLabelsEl.getBoundingClientRect().height
+      : 0;
+    return {
+      summaryHeight,
+      raceAndYearLabelsHeight,
+      filtersHeight,
+      prevSignsLabelsHeight
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { selectedState } = this.props;
+    const prevSelectedState = prevProps.selectedState;
+    if (!isEqual(selectedState, prevSelectedState)) {
+      if (selectedState && prevSelectedState == null) {
+        this.contentTransition(true);
+      }
+    }
+  }
+
   render(): React.Node {
+    return (
+      <Container>
+        <MapContainer>{this.renderMap()}</MapContainer>
+        <ContentContainer>
+          <Content innerRef={el => (this.contentEl = el)}>
+            {this.renderSelectedState()}
+            {this.renderOverview()}
+          </Content>
+        </ContentContainer>
+      </Container>
+    );
+  }
+
+  renderOverview() {
+    return (
+      <OverviewContainer base={BASE_SPACING_UNIT * CONTENT_PADDING_MULTIPLIER}>
+        <ClientRect
+          container={FlexFill}
+          render={cr => {
+            const {
+              summaryHeight,
+              raceAndYearLabelsHeight,
+              filtersHeight,
+              prevSignsLabelsHeight
+            } = this.state;
+            const chartHeight =
+              (cr.height -
+                summaryHeight -
+                raceAndYearLabelsHeight -
+                filtersHeight -
+                prevSignsLabelsHeight) /
+                2 -
+              20;
+            return (
+              <div>
+                {this.renderSummary()}
+                <PadMain
+                  innerRef={el => (raceAndYearLabelsEl = el)}
+                  top={BASE_SPACING_UNIT * 4}
+                  left={0}
+                  right={0}
+                  bottom={0}
+                >
+                  <LabelContainer>
+                    <Width50>
+                      <CenterLabel>Shooter Demographics</CenterLabel>
+                    </Width50>
+                    <Width50>
+                      <CenterLabel>Incidents Per Year</CenterLabel>
+                    </Width50>
+                  </LabelContainer>
+                </PadMain>
+                {this.renderRaceAndYearCharts(chartHeight)}
+
+                <FiltersContainer innerRef={el => (filtersEl = el)}>
+                  <Width50>{this.renderGenderSelector()}</Width50>
+                  <YearFilterContainer>
+                    {this.renderYearSlider()}
+                  </YearFilterContainer>
+                </FiltersContainer>
+
+                <PadMain
+                  top={BASE_SPACING_UNIT * 4}
+                  left={0}
+                  right={0}
+                  bottom={0}
+                >
+                  <LabelContainer innerRef={el => (prevSignsLabelsEl = el)}>
+                    <Width50>
+                      <CenterLabel>
+                        Previous Signs of Mental Illness
+                      </CenterLabel>
+                      <Legend>
+                        <div>
+                          {COLOR_LEGEND.map((item, i) => {
+                            return (
+                              <InlineBlock key={i}>
+                                <PadMain
+                                  top={0}
+                                  right={BASE_SPACING_UNIT * 4}
+                                  bottom={0}
+                                  left={0}
+                                >
+                                  <Dot color={this.getColor(item)} />
+                                  <MainLabel>{item.name}</MainLabel>
+                                </PadMain>
+                              </InlineBlock>
+                            );
+                          })}
+                        </div>
+                      </Legend>
+                    </Width50>
+                    <Width50>
+                      <CenterLabel>Venue</CenterLabel>
+                    </Width50>
+                  </LabelContainer>
+                </PadMain>
+                <FlexContainer>
+                  <ClientRect
+                    container={Width50}
+                    render={cr => this.renderMentalHealthChart(cr, chartHeight)}
+                  />
+                  <ClientRect
+                    container={RadarContainer}
+                    render={cr => this.renderVenueChart(cr, chartHeight)}
+                  />
+                </FlexContainer>
+              </div>
+            );
+          }}
+        />
+      </OverviewContainer>
+    );
+  }
+
+  getColor(item) {
+    const { prevSign } = this.props;
+    if (!prevSign) {
+      return item.color;
+    }
+    return prevSign === item.name ? item.color : inactiveColor;
+  }
+
+  renderMap() {
     const { selectedState } = this.props;
     const data = this.getFilteredResults();
     const massShootingsByState = d3
       .nest()
       .key(d => d.stateName)
       .entries(data);
+    const minNumIncidents = d3.min(massShootingsByState, d => d.values.length);
+    const maxNumIncidents = d3.max(massShootingsByState, d => d.values.length);
+    const colorScale = d3
+      .scaleLinear()
+      .domain([minNumIncidents, maxNumIncidents / 2, maxNumIncidents])
+      .range([
+        colorManager.lighten(0.5).hex(),
+        colorManager.lighten(0.25).hex(),
+        colorManager.hex()
+      ]);
     const layer = new GeoJsonLayer({
       id: "geojson-layer",
       data: USStates,
@@ -117,7 +481,14 @@ class MotherJonesMassShootings extends React.Component<Props> {
         const val = massShootingsByState.find(item => item.key === key);
         let color = [240, 240, 240, 255];
         if (val) {
-          color = [223, 119, 91, 255];
+          let vals = colorScale(val.values.length);
+          vals = vals.split("rgb(").filter(item => Boolean(item))[0];
+          vals = vals
+            .substr(0, vals.length - 1)
+            .split(",")
+            .map(v => parseInt(v, 10));
+          vals.push(255);
+          color = vals;
         }
         if (val && val.key === idx(this.props, _ => _.selectedState.key)) {
           color = [0, 0, 0, 255];
@@ -127,36 +498,98 @@ class MotherJonesMassShootings extends React.Component<Props> {
       getLineColor: [255, 255, 255, 255],
       getLineWidth: 5000,
       onClick: state => {
-        const _selectedState = massShootingsByState.find(
-          item => item.key === state.object.properties.name
-        );
-        this.props.setSelectedState(
-          isEqual(selectedState, _selectedState) ? null : _selectedState
-        );
+        this.setSelectedState(state, selectedState, massShootingsByState);
       },
       updateTriggers: {
         getFillColor: [selectedState, data]
       }
     });
+    return <Map layers={[layer]} />;
+  }
 
+  async setSelectedState(
+    state: Object,
+    selectedState: ?Object,
+    massShootingsByState: Array<Object>
+  ) {
+    const _selectedState = massShootingsByState.find(
+      item => item.key === state.object.properties.name
+    );
+
+    const selected = isEqual(selectedState, _selectedState)
+      ? null
+      : _selectedState;
+
+    if (!selected) {
+      await this.contentTransition();
+    }
+
+    this.props.setSelectedState(selected);
+  }
+
+  renderYearSlider(): React.Node {
+    const { data, selectedYearRange } = this.props;
+    const minYear = parseInt(d3.min(data, d => d.moment.format("YYYY")), 10);
+    const maxYear = parseInt(d3.max(data, d => d.moment.format("YYYY")), 10);
+    if (!minYear || !maxYear) {
+      return null;
+    }
+    const EndYear = styled(Width50)`
+      text-align: right;
+    `;
+    const StartYear = styled(Width50)`
+      text-align: left;
+    `;
     return (
-      <Container>
-        <MapContainer>
-          <Map layers={[layer]} />
-        </MapContainer>
-        <ContentContainer>
-          {selectedState ? this.renderSelectedState() : this.renderOverview()}
-        </ContentContainer>
-      </Container>
+      <ChartAlignPadding>
+        <SliderContainer>
+          <Range
+            min={minYear}
+            max={maxYear}
+            pushable={1}
+            value={selectedYearRange}
+            defaultValue={[minYear, maxYear]}
+            onChange={this.props.setYearRange}
+          />
+        </SliderContainer>
+        <FlexContainer>
+          <StartYear>
+            <MainLabel>{selectedYearRange[0]}</MainLabel>
+          </StartYear>
+          <EndYear>
+            <MainLabel>{selectedYearRange[1]}</MainLabel>
+          </EndYear>
+        </FlexContainer>
+      </ChartAlignPadding>
     );
   }
 
-  renderOverview() {
-    const { selectedGender } = this.props;
-
+  renderRaceAndYearCharts(chartHeight: number) {
     return (
-      <React.Fragment>
-        {this.renderFatalaties()}
+      <PadMain
+        top={0}
+        left={BASE_SPACING_UNIT * 8}
+        right={BASE_SPACING_UNIT * 8}
+        bottom={0}
+      >
+        <FlexContainer>
+          <ClientRect
+            container={Width50}
+            render={cr => this.renderRaceGraph(cr, chartHeight)}
+          />
+          <ClientRect
+            container={Width50}
+            render={cr => this.renderYearLineChart(cr, chartHeight)}
+          />
+        </FlexContainer>
+      </PadMain>
+    );
+  }
+
+  renderGenderSelector() {
+    const { selectedGender } = this.props;
+    return (
+      <ChartAlignPadding>
         <GenderContainer>
           <div>
             <GenderIcon
@@ -164,111 +597,277 @@ class MotherJonesMassShootings extends React.Component<Props> {
               gender="male"
               isActive={selectedGender.male}
             />
-            <div>Male</div>
+            <MainLabel>Male</MainLabel>
           </div>
           <div>
             <GenderIcon
               onClick={e => this.toggleGender("female")}
               isActive={selectedGender.female}
             />
-            <div>female</div>
+            <MainLabel>female</MainLabel>
           </div>
         </GenderContainer>
-        <PadMain>
-          <GraphsContainer>
-            <ClientRect
-              container={GraphContainer}
-              render={this.renderRaceGraph}
-            />
-            <ClientRect
-              container={GraphContainer}
-              render={this.renderYearLineChart}
-            />
-          </GraphsContainer>
-        </PadMain>
-      </React.Fragment>
+      </ChartAlignPadding>
     );
   }
 
-  renderRaceGraph = (clientRect: Object) => {
-    const { selectedRace, rawData } = this.props;
+  renderRaceGraph = (clientRect: Object, chartHeight: number) => {
+    const { selectedRace, data } = this.props;
     const massShootingsByRace = d3
       .nest()
       .key(d => MotherJonesMassShootings.getRaceFromItem(d))
-      .entries(rawData);
+      .entries(data);
 
-    const data = massShootingsByRace.map(item => {
+    const raceData = massShootingsByRace.map(item => {
       const results = this.getFilteredResults(item.values, {
         selectedRace: true
       });
       return {
         x: item.key === "native american" ? "native" : item.key,
         y: results.length,
-        color: item.key === selectedRace ? activeColor : inactiveColor
-      };
-    });
-    return (
-      <XYPlot
-        yDomain={[0, d3.max(massShootingsByRace, item => item.values.length)]}
-        margin={{ left: 60 }}
-        height={clientRect.height}
-        width={clientRect.width}
-        xType={"ordinal"}
-      >
-        <XAxis />
-        <YAxis />
-        <VerticalBarSeries
-          colorType="literal"
-          data={data}
-          onValueClick={this.handleRaceSelect}
-        />
-      </XYPlot>
-    );
-  };
-
-  renderYearLineChart = (clientRect: Object) => {
-    const { rawData } = this.props;
-    const massShootingsByYear = d3
-      .nest()
-      .key(d => d.moment.format("YYYY"))
-      .entries(rawData);
-    const data = massShootingsByYear.map(item => {
-      const results = this.getFilteredResults(item.values);
-      return {
-        y: results.length,
-        x: item.key,
-        stroke: inactiveColor
+        color: selectedRace
+          ? item.key === selectedRace ? activeColor : inactiveColor
+          : activeColor
       };
     });
     return (
       <div>
         <XYPlot
-          height={clientRect.height}
+          yDomain={[0, d3.max(massShootingsByRace, item => item.values.length)]}
+          margin={{ left: 30 }}
+          height={
+            clientRect.width / 1.2 > chartHeight
+              ? chartHeight
+              : clientRect.width / 1.2
+          }
           width={clientRect.width}
-          xDomain={[
-            d3.min(massShootingsByYear, item => item.key),
-            d3.max(massShootingsByYear, item => item.key)
-          ]}
+          xType={"ordinal"}
         >
-          <XAxis tickFormat={v => `${v}`} />
+          <XAxis />
           <YAxis />
-          <LineSeries data={data} />
+          <HorizontalGridLines />
+          <VerticalBarSeries
+            colorType="literal"
+            data={raceData}
+            onValueClick={this.handleRaceSelect}
+          />
         </XYPlot>
       </div>
     );
   };
 
-  renderFatalaties() {
-    return <div>
+  renderVenueChart = (clientRect: Object, chartHeight: number) => {
+    const { data, selectedVenue } = this.props;
+    const venues = d3
+      .nest()
+      .key(d => {
+        let val = d.venue.toLowerCase();
+        val = val.includes("workplace") ? "workplace" : val;
+        val = val.includes("other") ? "other" : val;
+        return val;
+      })
+      .entries(data);
+    if (!venues.length) {
+      return null;
+    }
+    const _data = venues.map(item => {
+      const results = this.getFilteredResults(item.values, {
+        selectedVenue: true
+      });
+      return {
+        x: item.key,
+        y: results.length,
+        color: selectedVenue
+          ? item.key === selectedVenue ? activeColor : inactiveColor
+          : activeColor
+      };
+    });
+    return (
       <div>
-      <div>{d3.sum(this.getFilteredResults(), d => d.fatalities)}</div>
-      <div>Fatalaties</div>
+        <XYPlot
+          yDomain={[0, d3.max(venues, item => item.values.length)]}
+          margin={{ left: 30 }}
+          height={
+            clientRect.width / 1.2 > chartHeight
+              ? chartHeight
+              : clientRect.width / 1.2
+          }
+          width={clientRect.width}
+          xType={"ordinal"}
+        >
+          <XAxis />
+          <YAxis />
+          <HorizontalGridLines />
+          <VerticalBarSeries
+            colorType="literal"
+            data={_data}
+            onValueClick={this.handleVenueSelect}
+          />
+        </XYPlot>
       </div>
+    );
+  };
+
+  renderMentalHealthChart = (clientRect: Object, chartHeight: number) => {
+    const { data, setPrevSign, prevSign } = this.props;
+    const prevSignsOfMentalHealth = d3
+      .nest()
+      .key(d => {
+        let key = d["prior signs of mental health issues"].trim().toLowerCase();
+        return key === "unclear" ||
+          key === "-" ||
+          key === "unknown" ||
+          key === "tbd"
+          ? "unclear"
+          : key;
+      })
+      .entries(data);
+    if (!prevSignsOfMentalHealth.length) {
+      return null;
+    }
+    const _data = prevSignsOfMentalHealth.map(item => {
+      const value = this.getFilteredResults(item.values, {
+        prevSign: true
+      }).length;
+      return {
+        name: item.key,
+        value
+      };
+    });
+    return (
+      <PieChart
+        width={clientRect.width}
+        height={clientRect.width > chartHeight ? chartHeight : clientRect.width}
+      >
+        <Pie
+          data={_data}
+          dataKey="value"
+          outerRadius={
+            clientRect.width > chartHeight
+              ? chartHeight / 2.5
+              : clientRect.width / 2.5
+          }
+          innerRadius={
+            clientRect.width > chartHeight
+              ? chartHeight / 5
+              : clientRect.width / 5
+          }
+          isAnimationActive={false}
+        >
+          {_data.map((entry, index) => (
+            <Cell
+              key={index}
+              fill={
+                prevSign
+                  ? entry.name === prevSign ? COLORS[index] : inactiveColor
+                  : COLORS[index]
+              }
+              onClick={e =>
+                setPrevSign(
+                  _data[index].name === prevSign ? null : _data[index].name
+                )
+              }
+            />
+          ))}
+        </Pie>
+      </PieChart>
+    );
+  };
+
+  renderYearLineChart = (clientRect: Object, chartHeight: number) => {
+    const { data } = this.props;
+    const massShootingsByYear = d3
+      .nest()
+      .key(d => d.moment.format("YYYY"))
+      .entries(data);
+    const yearDataFilteredBySelectedYearRange = massShootingsByYear.map(
+      item => {
+        const results = this.getFilteredResults(item.values);
+        return {
+          y: results.length,
+          x: item.key
+        };
+      }
+    );
+    const yearData = massShootingsByYear.map(item => {
+      const results = this.getFilteredResults(item.values, {
+        selectedYearRange: true
+      });
+      return {
+        y: results.length,
+        x: item.key
+      };
+    });
+    return (
       <div>
-      <div>{d3.sum(this.getFilteredResults(), d => d.injured)}</div>
-      <div>Injured</div>
+        <XYPlot
+          height={
+            clientRect.width / 1.2 > chartHeight
+              ? chartHeight
+              : clientRect.width / 1.2
+          }
+          width={clientRect.width}
+          xDomain={[
+            parseInt(d3.min(data, d => d.moment.format("YYYY")), 10),
+            parseInt(d3.max(data, d => d.moment.format("YYYY")), 10)
+          ]}
+          yDomain={[0, d3.max(massShootingsByYear, d => d.values.length)]}
+        >
+          <HorizontalGridLines />
+          <XAxis tickFormat={v => `${v}`} />
+          <YAxis />
+          <AreaSeries
+            animation
+            data={yearData}
+            fill={inactiveColor}
+            stroke={inactiveColor}
+          />
+          <AreaSeries
+            animation
+            data={yearDataFilteredBySelectedYearRange}
+            fill={activeColor}
+            stroke={activeColor}
+          />
+        </XYPlot>
       </div>
-    </div>
+    );
+  };
+
+  renderSummary() {
+    return (
+      <PadMain bottom={0} innerRef={el => (summaryContainerEl = el)}>
+        <SummaryContainer>
+          <div>
+            <Stat>
+              {this.formatNumber(d3.sum(this.getFilteredResults(), d => 1))}
+            </Stat>
+            <MainLabel>Incidents</MainLabel>
+          </div>
+          <div>
+            <Stat>
+              {this.formatNumber(
+                d3.sum(this.getFilteredResults(), d => d.fatalities)
+              )}
+            </Stat>
+            <MainLabel>Fatalaties</MainLabel>
+          </div>
+          <div>
+            <Stat>
+              {this.formatNumber(
+                d3.sum(this.getFilteredResults(), d => d.injured)
+              )}
+            </Stat>
+            <MainLabel>Injured</MainLabel>
+          </div>
+        </SummaryContainer>
+      </PadMain>
+    );
+  }
+
+  formatNumber(number: number): string {
+    return numbro(number).format({
+      thousandSeparated: true
+    });
   }
 
   handleRaceSelect = (datapoint): void => {
@@ -276,6 +875,13 @@ class MotherJonesMassShootings extends React.Component<Props> {
     let race = datapoint.x === "native" ? "native american" : datapoint.x;
     race = race === selectedRace ? null : race;
     this.props.setSelectedRace(race);
+  };
+
+  handleVenueSelect = (datapoint): void => {
+    const { selectedVenue } = this.props;
+    let venue = datapoint.x;
+    venue = venue === selectedVenue ? null : venue;
+    this.props.setSelectedVenue(venue);
   };
 
   static getRaceFromItem(item: Object): string {
@@ -297,13 +903,25 @@ class MotherJonesMassShootings extends React.Component<Props> {
           </PadMain>
         </div>
         <SelectedStateContent>
-          <PadMain>
-            {incidents.map((incident, i) =>
-              MotherJonesMassShootings.renderIncident(incident, i)
-            )}
+          <PadMain left={BASE_SPACING_UNIT * 10}>
+            <Incidents>
+              {incidents.map((incident, i) =>
+                MotherJonesMassShootings.renderIncident(incident, i)
+              )}
+            </Incidents>
           </PadMain>
         </SelectedStateContent>
       </SelectedStateContainer>
+    );
+  }
+
+  static renderIncident(incident, key) {
+    return (
+      <IncidentContainer key={key}>
+        <P>{incident.moment.format("MMMM DD, YYYY")}</P>
+        <H2>{incident.case}</H2>
+        <P>{incident.summary}</P>
+      </IncidentContainer>
     );
   }
 
@@ -313,11 +931,21 @@ class MotherJonesMassShootings extends React.Component<Props> {
     this.props.setSelectedGender(genders);
   }
 
-  getFilteredResults(items?: ?Array<Object>, exclude?: { [string]: boolean }) {
-    const { rawData, selectedRace, selectedGender } = this.props;
-    let x = exclude || {};
+  getFilteredResults(
+    items?: ?Array<Object>,
+    excludes?: { [string]: boolean } = {}
+  ) {
+    const {
+      data,
+      selectedRace,
+      selectedGender,
+      selectedYearRange,
+      prevSign,
+      selectedVenue
+    } = this.props;
     const isMatch = item => {
-      if (!x.selectedRace) {
+      const year = parseInt(item.moment.format("YYYY"), 10);
+      if (!excludes.selectedRace) {
         if (
           selectedRace &&
           selectedRace !== MotherJonesMassShootings.getRaceFromItem(item)
@@ -335,28 +963,58 @@ class MotherJonesMassShootings extends React.Component<Props> {
       if (!selectedGender.female && gender.includes("female")) {
         return false;
       }
+      if (
+        !excludes.selectedYearRange &&
+        selectedYearRange &&
+        (year < selectedYearRange[0] || year > selectedYearRange[1])
+      ) {
+        return false;
+      }
+      if (!excludes.prevSign && prevSign) {
+        let sign = item["prior signs of mental health issues"]
+          .trim()
+          .toLowerCase();
+        sign =
+          sign === "unclear" ||
+          sign === "-" ||
+          sign === "unknown" ||
+          sign === "tbd"
+            ? "unclear"
+            : sign;
+        if (sign !== prevSign) {
+          return false;
+        }
+      }
+      if (!excludes.selectedVenue && selectedVenue) {
+        let venue = item.venue.trim().toLowerCase();
+        venue = venue.includes("workplace") ? "workplace" : venue;
+        venue = venue.includes("other") ? "other" : venue;
+        if (venue !== selectedVenue) {
+          return false;
+        }
+      }
       return true;
     };
-    return items ? items.filter(isMatch) : rawData.filter(isMatch);
+    return items ? items.filter(isMatch) : data.filter(isMatch);
   }
 
-  static renderIncident(incident, key) {
-    return (
-      <IncidentContainer key={key}>
-        <H2>{incident.case}</H2>
-        <P>{incident.moment.format("MMMM DD, YYYY")}</P>
-        <P>{incident.summary}</P>
-      </IncidentContainer>
-    );
+  async contentTransition(direction?: boolean) {
+    const { contentEl } = this;
+    if (!contentEl) {
+      return;
+    }
+    const vals = [0, "-100%"];
+    return anime({
+      targets: contentEl,
+      translateX: direction ? vals : vals.reverse(),
+      duration: 1000,
+      easing: "easeInOutCubic"
+    }).finished;
   }
 }
 
 const mapStateToProps = state => ({
-  rawData: state.motherJonesData.data,
-  data: state.motherJonesData.filteredData,
-  selectedState: state.motherJonesData.selectedState,
-  selectedRace: state.motherJonesData.selectedRace,
-  selectedGender: state.motherJonesData.selectedGender
+  ...state.motherJonesData
 });
 
 const mapDispatchToProps = {

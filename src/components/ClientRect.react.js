@@ -31,11 +31,14 @@ export default class ClientRect extends React.Component<Props, State> {
       }
       this.setState({ clientRect: null }, () => {
         this.setState({ clientRect: containerEl.getBoundingClientRect() });
-        console.log("updating");
       });
     });
     resizeObserver.observe(window.document.body);
     this.setState({ resizeObserver, clientRect });
+  }
+  componentWillUnmount() {
+    const { resizeObserver } = this.state;
+    resizeObserver && resizeObserver.disconnect();
   }
   render() {
     const C = this.props.container;

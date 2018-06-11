@@ -3,13 +3,15 @@ import * as motherJones from "../action-types/motherJonesMassShootings.actionTyp
 const initialState = {
   isLoading: false,
   data: [],
-  filteredData: [],
   selectedState: null,
   selectedRace: null,
   selectedGender: {
     male: true,
     female: true
-  }
+  },
+  selectedYearRange: null,
+  prevSign: null,
+  selectedVenue: null
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -17,11 +19,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: action.data
-      };
-    case motherJones.SET_FILTERED_DATA:
-      return {
-        ...state,
-        filteredData: action.data
       };
     case motherJones.IS_LOADING_DATA:
       return {
@@ -42,6 +39,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedGender: { ...state.selectedGender, ...action.selectedGender }
+      };
+    case motherJones.SET_YEAR_RANGE:
+      return {
+        ...state,
+        selectedYearRange: action.yearRange
+      };
+    case motherJones.SET_PREV_SIGN:
+      return {
+        ...state,
+        prevSign: action.prevSign
+      };
+    case motherJones.SET_VENUE:
+      return {
+        ...state,
+        selectedVenue: action.selectedVenue
       };
     default:
       return initialState;

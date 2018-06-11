@@ -27,14 +27,24 @@ export const setSelectedRace = selectedRace => ({
   selectedRace
 });
 
+export const setSelectedVenue = selectedVenue => ({
+  type: motherJones.SET_VENUE,
+  selectedVenue
+});
+
 export const setSelectedGender = selectedGender => ({
   type: motherJones.SET_SELECTED_GENDER,
   selectedGender
 });
 
-export const setMotherJonesFilteredData = data => ({
-  type: motherJones.SET_FILTERED_DATA,
-  data
+export const setYearRange = yearRange => ({
+  type: motherJones.SET_YEAR_RANGE,
+  yearRange
+});
+
+export const setPrevSign = prevSign => ({
+  type: motherJones.SET_PREV_SIGN,
+  prevSign
 });
 
 export const fetchData = () => {
@@ -58,8 +68,29 @@ export const fetchData = () => {
         };
       }
     );
+
+    // const massShootingsByState = d3
+    //   .nest()
+    //   .key(d => d.stateName)
+    //   .entries(data);
+    //
+    // const selectedState = massShootingsByState.find(
+    //   item => item.key === "California"
+    // );
+    //
+    // dispatch(setSelectedState(selectedState));
+
+    // debugger;
+    // const selectedState = massShootingsByState.find(
+    //   item => item.key === "California"
+    // );
+    //
+    // dispatch(setSelectedState(selectedState));
+
+    const minYear = parseInt(d3.min(data, d => d.moment.format("YYYY")), 10);
+    const maxYear = parseInt(d3.max(data, d => d.moment.format("YYYY")), 10);
+    dispatch(setYearRange([minYear, maxYear]));
     dispatch(setMotherJonesData(data));
-    dispatch(setMotherJonesFilteredData(data));
     dispatch(setIsLoadingMotherJonesData(false));
   };
 };
