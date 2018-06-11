@@ -92,8 +92,8 @@ class App extends Component<Props, State> {
 
   state: State = {
     isTypeKitLoaded: false,
-    hasIntroLoaded: true,
-    isShowingDashboard: true
+    hasIntroLoaded: false,
+    isShowingDashboard: false
   };
 
   componentDidMount() {
@@ -113,7 +113,7 @@ class App extends Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     const { hasIntroLoaded, isTypeKitLoaded } = this.state;
     if (hasIntroLoaded && isTypeKitLoaded && !this.hasAnimatedIn) {
-      //this.animateIn();
+      this.animateIn();
     }
   }
 
