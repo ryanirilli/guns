@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const Page = styled.div`
   width: 100vw;
   height: 100vh;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const AbsoluteFill = styled.div`

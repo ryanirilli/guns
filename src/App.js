@@ -1,33 +1,41 @@
 // @flow
 import "rc-slider/assets/index.css";
 import React, { Component } from "react";
+import { BarLoader } from "react-spinners";
 import styled from "styled-components";
+import anime from "animejs";
 import WebFont from "webfontloader";
 import MdPlayArrow from "react-icons/lib/md/play-arrow";
 
 import Map from "./components/Map.react";
 import MotherJonesMassShootings from "./components/MotherJonesMassShootings";
 
-import { H1 } from "./styles/Headings";
+import { AbsoluteFill } from "./styles/Layouts";
+import { H1, P } from "./styles/Headings";
 import { Page } from "./styles/Layouts";
+import { activeColor, mainBgColor } from "./styles/Colors";
 
-import Flag from "./images/flag.jpg";
+import MainBg from "./images/samuel-branch-442129-unsplash.jpg";
 
 const Intro = styled(Page)`
-  background: url(${Flag}) no-repeat;
+  background: url(${MainBg}) no-repeat;
   background-size: cover;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+  opacity: 0;
   h1 {
     font-size: 3rem;
-    text-shadow: 0 10px 30px black;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const IntroContent = styled.div`
   text-align: center;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MapContainer = styled.div`
@@ -45,23 +53,33 @@ const FlagImg = styled.img`
   width: 100%;
 `;
 
-const PlayArrow = styled(MdPlayArrow)`
-  font-size: 5rem;
-  :hover {
-    color: #b92a18;
-    cursor: pointer;
-  }
+const PlayArrow = styled.div`
+  background: white;
+  padding: 20px;
+  color: ${activeColor};
+  display: inline-block;
+  border-radius: 20px;
+  margin-top: 20px;
 `;
 
 type Props = {};
 
 type State = {
-  isTypeKitLoaded: boolean
+  isTypeKitLoaded: boolean,
+  hasIntroLoaded: boolean,
+  isShowingDashboard: boolean
 };
 
 class App extends Component<Props, State> {
+  hasAnimatedIn: boolean;
+  mainBgEl: ?HTMLDivElement;
+  titleEl: ?HTMLElement;
+  contentEl: ?HTMLElement;
+
   state: State = {
-    isTypeKitLoaded: false
+    isTypeKitLoaded: false,
+    hasIntroLoaded: false,
+    isShowingDashboard: false
   };
 
   componentDidMount() {
@@ -69,27 +87,114 @@ class App extends Component<Props, State> {
       typekit: { id: "tvy0peo" },
       active: () => this.setState({ isTypeKitLoaded: true })
     });
+    const mainBg = document.createElement("img");
+    mainBg.src = MainBg;
+    mainBg.onload = () => {
+      setTimeout(() => {
+        this.setState({ hasIntroLoaded: true });
+      }, 2000);
+    };
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const { hasIntroLoaded, isTypeKitLoaded } = this.state;
+    if (hasIntroLoaded && isTypeKitLoaded && !this.hasAnimatedIn) {
+      this.animateIn();
+    }
   }
 
   render() {
-    const { isTypeKitLoaded } = this.state;
+    const { isTypeKitLoaded, isShowingDashboard, hasIntroLoaded } = this.state;
+    const IntroText = styled(P)`
+      max-width: 500px;
+      align-self: center;
+    `;
     return (
       <div>
-        {isTypeKitLoaded && (
+        {!isTypeKitLoaded || !hasIntroLoaded ? (
+          this.renderLoading()
+        ) : (
           <React.Fragment>
-            {/*<Intro>*/}
-            {/*<IntroContent>*/}
-            {/*<H1>An American Gun Story</H1>*/}
-            {/*<PlayArrow />*/}
-            {/*</IntroContent>*/}
-            {/*</Intro>*/}
-            <Page>
-              <MotherJonesMassShootings />
-            </Page>
+            {!isShowingDashboard ? (
+              <Intro innerRef={el => (this.mainBgEl = el)}>
+                <IntroContent>
+                  <H1 innerRef={el => (this.titleEl = el)}>
+                    An American Gun Story
+                  </H1>
+                  <IntroText innerRef={el => (this.contentEl = el)}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Maecenas ac odio nulla. Donec non mauris vel libero
+                    tincidunt pretium eget ut tortor. Nulla venenatis tincidunt
+                    ultrices. Sed varius nunc odio, et lacinia sem gravida sed.
+                    Integer faucibus vitae turpis quis rhoncus. Mauris sed
+                    rutrum quam, a convallis lacus. Ut egestas, sapien in auctor
+                    pretium, orci nunc bibendum enim, nec tempus nunc lectus
+                    vitae purus. Donec et tortor turpis. Proin vitae porta
+                    lacus.
+                  </IntroText>
+                  <div>
+                    <PlayArrow onClick={this.showDashboard}>
+                      Explore the Data
+                    </PlayArrow>
+                  </div>
+                </IntroContent>
+              </Intro>
+            ) : (
+              <Page>
+                <MotherJonesMassShootings />
+              </Page>
+            )}
           </React.Fragment>
         )}
       </div>
     );
+  }
+
+  renderLoading() {
+    const SpinnerContainer = styled(AbsoluteFill)`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: ${mainBgColor};
+    `;
+    return (
+      <SpinnerContainer>
+        <div>
+          <BarLoader color={activeColor} />
+        </div>
+      </SpinnerContainer>
+    );
+  }
+
+  showDashboard = () => {
+    this.setState({ isShowingDashboard: true });
+  };
+
+  animateIn() {
+    this.hasAnimatedIn = true;
+    const { mainBgEl, titleEl, contentEl } = this;
+    anime({
+      targets: mainBgEl,
+      opacity: [0, 1],
+      easing: "easeInOutCubic",
+      duration: 1000
+    });
+    anime({
+      targets: titleEl,
+      opacity: [0, 1],
+      translateY: [20, 0],
+      easing: "easeOutCubic",
+      duration: 1000,
+      delay: 500
+    });
+    anime({
+      targets: contentEl,
+      opacity: [0, 1],
+      translateY: [20, 0],
+      easing: "easeOutCubic",
+      duration: 1000,
+      delay: 600
+    });
   }
 }
 
