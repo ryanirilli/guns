@@ -27,8 +27,8 @@ const Intro = styled(Page)`
   z-index: 1;
   opacity: 0;
   h1 {
-    font-size: 3rem;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-size: 2.7rem;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -38,19 +38,15 @@ const IntroContent = styled.div`
   flex-direction: column;
 `;
 
-const MapContainer = styled.div`
-  position: relative;
-  width: 50vw;
-  height: 100vh;
+const AboutContainer = styled.div`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999999;
 `;
 
-const GunImg = styled.img`
-  max-width: 200px;
-`;
-
-const FlagImg = styled.img`
-  filter: grayscale();
-  width: 100%;
+const AboutContent = styled.div`
+  background: red;
 `;
 
 const GoToDataButton = styled.button`
@@ -119,7 +115,7 @@ class App extends Component<Props, State> {
 
   render() {
     const { isTypeKitLoaded, isShowingDashboard, hasIntroLoaded } = this.state;
-    const IntroText = styled(P)`
+    const IntroText = styled.div`
       max-width: 500px;
       align-self: center;
     `;
@@ -138,6 +134,7 @@ class App extends Component<Props, State> {
           this.renderLoading()
         ) : (
           <React.Fragment>
+            {this.renderAbout()}
             {!isShowingDashboard ? (
               <Intro innerRef={el => (this.mainBgEl = el)}>
                 <IntroContent>
@@ -149,7 +146,7 @@ class App extends Component<Props, State> {
                       America has a long and storied past with guns and gun
                       violence. Mass shootings are a grave reminder of the cost
                       of that freedom we fight so hard to uphold. Responsible
-                      gun owners will argue tooth and nail for their rights to
+                      gun owners will argue tooth and nail for their right to
                       legally bear arms, but as laws remain unchanged, these
                       tragedies continue to occur more and more in our country.
                     </P>
@@ -183,6 +180,15 @@ class App extends Component<Props, State> {
         )}
       </div>
     );
+  }
+
+  renderAbout() {
+    return null;
+    // return (
+    //   <AboutContainer>
+    //     <AboutContent>test</AboutContent>
+    //   </AboutContainer>
+    // );
   }
 
   renderLoading() {

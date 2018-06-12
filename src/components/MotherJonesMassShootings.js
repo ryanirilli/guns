@@ -106,7 +106,7 @@ const Content = styled(AbsoluteFill)`
 `;
 
 const Incidents = styled.div`
-  border-left: 4px solid;
+  border-left: 4px solid ${colorManager.lighten(0.5).hex()};
   padding-left: 24px;
   position: relative;
   :after {
@@ -118,7 +118,7 @@ const Incidents = styled.div`
     background: ${mainBgColor};
     top: -${BASE_SPACING_UNIT * 3}px;
     left: -${BASE_SPACING_UNIT * 3}px;
-    border: 3px solid ${primaryTextColor};
+    border: 3px solid ${activeColor};
   }
 `;
 
@@ -136,7 +136,7 @@ const IncidentContainer = styled.div`
     background: ${mainBgColor};
     top: 0;
     left: -${BASE_SPACING_UNIT * 8.75}px;
-    border: 3px solid ${primaryTextColor};
+    border: 3px solid ${activeColor};
   }
 `;
 
@@ -331,6 +331,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   contentEl: ?HTMLDivElement;
   mapEl: ?HTMLDivElement;
   contentContainerEl: ?HTMLDivElement;
+  resetFiltersEl: ?HTMLDivElement;
 
   state: State = {
     summaryHeight: 0,
@@ -554,6 +555,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   renderResetFilters() {
     return (
       <ResetFiltersContainer
+        innerRef={el => (this.resetFiltersEl = el)}
         onClick={e => {
           e.preventDefault();
           this.props.resetFilters();
@@ -700,8 +702,12 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
 
   renderGenderSelector() {
     const { selectedGender } = this.props;
+    const GenderWrapper = styled(ChartAlignPadding)`
+      display: flex;
+      justify-content: center;
+    `;
     return (
-      <ChartAlignPadding>
+      <GenderWrapper>
         <GenderContainer>
           <div>
             <MainLabel>Male</MainLabel>
@@ -719,7 +725,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
             />
           </div>
         </GenderContainer>
-      </ChartAlignPadding>
+      </GenderWrapper>
     );
   }
 
@@ -1010,7 +1016,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     return (
       <SelectedStateContainer>
         <div>
-          <PadMain>
+          <PadMain left={BASE_SPACING_UNIT * 10}>
             <H1>{selectedState.key}</H1>
           </PadMain>
         </div>
@@ -1111,11 +1117,18 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   }
 
   async contentTransition(direction?: boolean) {
-    const { contentEl } = this;
-    if (!contentEl) {
+    const { contentEl, resetFiltersEl } = this;
+    if (!contentEl || !resetFiltersEl) {
       return;
     }
     const vals = [0, "-100%"];
+    const opacity = [1, 0];
+    anime({
+      targets: resetFiltersEl,
+      opacity: direction ? opacity : opacity.reverse(),
+      duration: 500,
+      easing: "easeInOutCubic"
+    });
     return anime({
       targets: contentEl,
       translateX: direction ? vals : vals.reverse(),

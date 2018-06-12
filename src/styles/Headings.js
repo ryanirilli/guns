@@ -5,6 +5,7 @@ export const H1 = styled.h1`
   -moz-osx-font-smoothing: grayscale;
   font-family: "gastromond", sans-serif;
   margin: 0;
+  font-size: 1.5rem;
 `;
 export const H2 = styled.h2`
   -webkit-font-smoothing: antialiased;
