@@ -33,7 +33,7 @@ import {
 import "../../node_modules/react-vis/dist/style.css";
 import { BASE_SPACING_UNIT } from "../styles/Foundation";
 import { PadMain } from "../styles/Padding";
-import { H1, H2, P } from "../styles/Headings";
+import { H1, H2, P, A } from "../styles/Headings";
 import { AbsoluteFill, FlexFill } from "../styles/Layouts";
 
 import * as motherJonesActions from "../actions/motherJonesMassShootings.actions";
@@ -82,10 +82,12 @@ const MapContainer = styled.div`
   position: relative;
   width: 50vw;
   height: 100vh;
+  opacity: 0;
 `;
 
 const ContentContainer = styled.div`
   width: 50vw;
+  transform: translateX(-100%);
   height: 100vh;
   background: ${mainBgColor};
   position: relative;
@@ -93,7 +95,15 @@ const ContentContainer = styled.div`
   overflow: hidden;
 `;
 
-const Content = styled(AbsoluteFill)``;
+const Content = styled(AbsoluteFill)`
+  opacity: 0;
+  a {
+    color: ${primaryTextColor};
+    :visited {
+      color: ${primaryTextColor};
+    }
+  }
+`;
 
 const Incidents = styled.div`
   border-left: 4px solid;
@@ -319,6 +329,8 @@ type State = {
 
 class MotherJonesMassShootings extends React.Component<Props, State> {
   contentEl: ?HTMLDivElement;
+  mapEl: ?HTMLDivElement;
+  contentContainerEl: ?HTMLDivElement;
 
   state: State = {
     summaryHeight: 0,
@@ -358,20 +370,51 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { selectedState } = this.props;
+    const { selectedState, data } = this.props;
+    const prevData = prevProps.data;
     const prevSelectedState = prevProps.selectedState;
     if (!isEqual(selectedState, prevSelectedState)) {
       if (selectedState && prevSelectedState == null) {
         this.contentTransition(true);
       }
     }
+    if (data.length && !prevData.length) {
+      this.animateIn();
+    }
+  }
+
+  async animateIn() {
+    const { contentEl, mapEl, contentContainerEl } = this;
+    await anime({
+      targets: contentContainerEl,
+      easing: "easeOutCubic",
+      duration: 1000,
+      translateX: ["-100%", 0]
+    }).finished;
+    anime({
+      targets: contentEl,
+      opacity: [0, 1],
+      easing: "easeOutCubic",
+      duration: 1300,
+      translateY: [20, 0]
+    });
+    anime({
+      targets: mapEl,
+      opacity: [0, 1],
+      easing: "easeOutCubic",
+      duration: 1300,
+      delay: 200,
+      translateY: [20, 0]
+    });
   }
 
   render(): React.Node {
     return (
-      <Container>        
-        <MapContainer>{this.renderMap()}</MapContainer>
-        <ContentContainer>
+      <Container>
+        <MapContainer innerRef={el => (this.mapEl = el)}>
+          {this.renderMap()}
+        </MapContainer>
+        <ContentContainer innerRef={el => (this.contentContainerEl = el)}>
           {this.renderResetFilters()}
           <Content innerRef={el => (this.contentEl = el)}>
             {this.renderSelectedState()}
@@ -384,7 +427,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
 
   renderOverview() {
     return (
-      <OverviewContainer base={BASE_SPACING_UNIT * CONTENT_PADDING_MULTIPLIER}>        
+      <OverviewContainer base={BASE_SPACING_UNIT * CONTENT_PADDING_MULTIPLIER}>
         <ClientRect
           container={FlexFill}
           render={cr => {
@@ -408,10 +451,16 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
               <div>
                 <TitleContainer innerRef={el => (titleContainerEl = el)}>
                   <PadMain top={BASE_SPACING_UNIT * 4} bottom={0}>
-                    <H1>
-                      Mass Shooting Incidents
-                    </H1>
-                    <P>1982 to 2018 Data provided by Mother Jones</P>
+                    <H1>Mass shootings in America</H1>
+                    <P>
+                      1982 to 2018 Data provided by{" "}
+                      <A
+                        href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/"
+                        target="_blank"
+                      >
+                        Mother Jones
+                      </A>
+                    </P>
                   </PadMain>
                 </TitleContainer>
                 {this.renderSummary()}
@@ -503,13 +552,17 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   }
 
   renderResetFilters() {
-    return <ResetFiltersContainer onClick={e => {
-      e.preventDefault();
-      this.props.resetFilters();
-      return false;
-    }}>
-      Reset Filters
-    </ResetFiltersContainer>
+    return (
+      <ResetFiltersContainer
+        onClick={e => {
+          e.preventDefault();
+          this.props.resetFilters();
+          return false;
+        }}
+      >
+        Reset Filters
+      </ResetFiltersContainer>
+    );
   }
 
   renderMap() {
@@ -656,14 +709,14 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
               onClick={e => this.toggleGender("male")}
               gender="male"
               isActive={selectedGender.male}
-            />            
+            />
           </div>
           <div>
             <MainLabel>female</MainLabel>
             <GenderIcon
               onClick={e => this.toggleGender("female")}
               isActive={selectedGender.female}
-            />            
+            />
           </div>
         </GenderContainer>
       </ChartAlignPadding>
@@ -900,7 +953,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
             <MainLabel>Incidents</MainLabel>
             <Stat>
               {this.formatNumber(d3.sum(this.getFilteredResults(), d => 1))}
-            </Stat>            
+            </Stat>
           </div>
           <div>
             <MainLabel>Fatalaties</MainLabel>
@@ -908,7 +961,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
               {this.formatNumber(
                 d3.sum(this.getFilteredResults(), d => d.fatalities)
               )}
-            </Stat>            
+            </Stat>
           </div>
           <div>
             <MainLabel>Injured</MainLabel>
@@ -916,7 +969,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
               {this.formatNumber(
                 d3.sum(this.getFilteredResults(), d => d.injured)
               )}
-            </Stat>            
+            </Stat>
           </div>
         </SummaryContainer>
       </PadMain>

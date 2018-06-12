@@ -28,3 +28,5 @@ export const P = styled.p`
   margin-top: 4px;
   font-family: monospace;
 `;
+
+export const A = styled.a``;

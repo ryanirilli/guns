@@ -11,7 +11,7 @@ import Map from "./components/Map.react";
 import MotherJonesMassShootings from "./components/MotherJonesMassShootings";
 
 import { AbsoluteFill } from "./styles/Layouts";
-import { H1, P } from "./styles/Headings";
+import { H1, P, A } from "./styles/Headings";
 import { Page } from "./styles/Layouts";
 import { activeColor, mainBgColor, inactiveColor } from "./styles/Colors";
 
@@ -123,6 +123,15 @@ class App extends Component<Props, State> {
       max-width: 500px;
       align-self: center;
     `;
+    const SecondParagraph = styled(P)`
+      margin-top: 20px;
+    `;
+    const MjLink = styled(A)`
+      color: white;
+      :visited {
+        color: white;
+      }
+    `;
     return (
       <div>
         {!isTypeKitLoaded || !hasIntroLoaded ? (
@@ -133,21 +142,33 @@ class App extends Component<Props, State> {
               <Intro innerRef={el => (this.mainBgEl = el)}>
                 <IntroContent>
                   <H1 innerRef={el => (this.titleEl = el)}>
-                    An American Gun Story
+                    Mass shootings in America
                   </H1>
                   <IntroText innerRef={el => (this.contentEl = el)}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Maecenas ac odio nulla. Donec non mauris vel libero
-                    tincidunt pretium eget ut tortor. Nulla venenatis tincidunt
-                    ultrices. Sed varius nunc odio, et lacinia sem gravida sed.
-                    Integer faucibus vitae turpis quis rhoncus. Mauris sed
-                    rutrum quam, a convallis lacus. Ut egestas, sapien in auctor
-                    pretium, orci nunc bibendum enim, nec tempus nunc lectus
-                    vitae purus. Donec et tortor turpis. Proin vitae porta
-                    lacus.
+                    <P>
+                      America has a long and storied past with guns and gun
+                      violence. Mass shootings are a grave reminder of the cost
+                      of that freedom we fight so hard to uphold. Responsible
+                      gun owners will argue tooth and nail for their rights to
+                      legally bear arms, but as laws remain unchanged, these
+                      tragedies continue to occur more and more in our country.
+                    </P>
+                    <SecondParagraph>
+                      <MjLink
+                        href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/"
+                        target="_blank"
+                      >
+                        Mother Jones
+                      </MjLink>{" "}
+                      has published a full data set from their in-depth
+                      investigation into mass shootings from 1982-2018.
+                    </SecondParagraph>
                   </IntroText>
                   <div>
-                    <GoToDataButton onClick={this.showDashboard} innerRef={el => (this.goToDataButtonEl = el)}>
+                    <GoToDataButton
+                      onClick={this.showDashboard}
+                      innerRef={el => (this.goToDataButtonEl = el)}
+                    >
                       Explore the Data
                     </GoToDataButton>
                   </div>
@@ -187,7 +208,7 @@ class App extends Component<Props, State> {
       opacity: [1, 0],
       translateY: [0, 20],
       easing: "easeOutCubic",
-      duration: 1000,      
+      duration: 1000
     });
     anime({
       targets: contentEl,
@@ -212,7 +233,7 @@ class App extends Component<Props, State> {
       duration: 1000,
       delay: 800
     }).finished;
-    this.setState({ isShowingDashboard: true });        
+    this.setState({ isShowingDashboard: true });
   };
 
   animateIn() {
