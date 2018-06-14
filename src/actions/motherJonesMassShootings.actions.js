@@ -48,7 +48,7 @@ export const setPrevSign = prevSign => ({
 });
 
 export const resetFilters = () => ({
-  type: motherJones.RESET_FILTERS,
+  type: motherJones.RESET_FILTERS
 });
 
 export const fetchData = () => {
@@ -78,13 +78,6 @@ export const fetchData = () => {
     //   .key(d => d.stateName)
     //   .entries(data);
     //
-    // const selectedState = massShootingsByState.find(
-    //   item => item.key === "California"
-    // );
-    //
-    // dispatch(setSelectedState(selectedState));
-
-    // debugger;
     // const selectedState = massShootingsByState.find(
     //   item => item.key === "California"
     // );

@@ -80,7 +80,7 @@ type State = {
 };
 
 class App extends Component<Props, State> {
-  hasAnimatedIn: boolean;
+  hasAnimatedIn: boolean = false;
   mainBgEl: ?HTMLDivElement;
   titleEl: ?HTMLElement;
   contentEl: ?HTMLElement;

@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import * as d3 from "d3";
+import styled from "styled-components";
 import { GeoJsonLayer } from "deck.gl";
 import { connect } from "react-redux";
 import isEqual from "react-fast-compare";
@@ -16,7 +17,6 @@ import {
 } from "react-vis";
 import { PieChart, Pie, Cell } from "recharts";
 import Color from "color";
-
 import numbro from "numbro";
 import idx from "idx";
 
@@ -33,13 +33,11 @@ import {
 import "../../node_modules/react-vis/dist/style.css";
 import { BASE_SPACING_UNIT } from "../styles/Foundation";
 import { PadMain } from "../styles/Padding";
-import { H1, H2, P, A } from "../styles/Headings";
+import { H1, H2, H3, P, A } from "../styles/Headings";
 import { AbsoluteFill, FlexFill } from "../styles/Layouts";
 
 import * as motherJonesActions from "../actions/motherJonesMassShootings.actions";
-
 import USStates from "../data/us-states";
-import styled from "styled-components";
 
 const colorManager = Color(activeColor);
 let summaryContainerEl = null;
@@ -105,41 +103,6 @@ const Content = styled(AbsoluteFill)`
   }
 `;
 
-const Incidents = styled.div`
-  border-left: 4px solid ${colorManager.lighten(0.5).hex()};
-  padding-left: 24px;
-  position: relative;
-  :after {
-    content: "";
-    width: ${BASE_SPACING_UNIT * 3}px;
-    height: ${BASE_SPACING_UNIT * 3}px;
-    border-radius: ${BASE_SPACING_UNIT * 3}px;
-    position: absolute;
-    background: ${mainBgColor};
-    top: -${BASE_SPACING_UNIT * 3}px;
-    left: -${BASE_SPACING_UNIT * 3}px;
-    border: 3px solid ${activeColor};
-  }
-`;
-
-const IncidentContainer = styled.div`
-  margin-bottom: ${BASE_SPACING_UNIT * 16}px;
-  position: relative;
-  top: -${BASE_SPACING_UNIT * 3}px;
-  max-width: 500px;
-  :not(:first-child):after {
-    content: "";
-    width: ${BASE_SPACING_UNIT * 3}px;
-    height: ${BASE_SPACING_UNIT * 3}px;
-    border-radius: ${BASE_SPACING_UNIT * 3}px;
-    position: absolute;
-    background: ${mainBgColor};
-    top: 0;
-    left: -${BASE_SPACING_UNIT * 8.75}px;
-    border: 3px solid ${activeColor};
-  }
-`;
-
 const SelectedStateContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -147,14 +110,66 @@ const SelectedStateContainer = styled.div`
   width: 100%;
   left: 100%;
   top: 0%;
-  background: #f1f1f1;
   color: ${primaryTextColor};
   position: absolute;
   z-index: 1;
+  border-left: 1px solid ${inactiveColor};
 `;
 
 const SelectedStateContent = styled.div`
   overflow-y: scroll;
+`;
+
+const SelectedStateTitleContainer = styled.div`
+  border-bottom: 1px solid ${inactiveColor};
+`;
+
+const SelectedStateTitle = styled.div`
+  text-align: center;
+`;
+
+const SelectedStateIncidentsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const SelectedStateIncidents = styled.div`
+  border-left: 2px solid ${colorManager.lighten(0.5).hex()};
+  padding-left: ${BASE_SPACING_UNIT * 6}px;
+  position: relative;
+  margin-bottom: ${BASE_SPACING_UNIT * 16}px;
+  :after {
+    content: "";
+    width: ${BASE_SPACING_UNIT * 2}px;
+    height: ${BASE_SPACING_UNIT * 2}px;
+    border-radius: ${BASE_SPACING_UNIT * 2}px;
+    position: absolute;
+    background: ${mainBgColor};
+    top: -${BASE_SPACING_UNIT * 2}px;
+    left: -${BASE_SPACING_UNIT * 2}px;
+    border: 2px solid ${activeColor};
+  }
+`;
+
+const SelectedStateIncident = styled.div`
+  margin-bottom: ${BASE_SPACING_UNIT * 16}px;
+  position: relative;
+  top: -${BASE_SPACING_UNIT * 5}px;
+  max-width: 500px;
+  :last-child {
+    margin-bottom: 0;
+  }
+  :not(:first-child):after {
+    content: "";
+    width: ${BASE_SPACING_UNIT * 2}px;
+    height: ${BASE_SPACING_UNIT * 2}px;
+    border-radius: ${BASE_SPACING_UNIT * 2}px;
+    position: absolute;
+    background: ${mainBgColor};
+    top: ${BASE_SPACING_UNIT}px;
+    left: -${BASE_SPACING_UNIT * 8}px;
+    border: 2px solid ${activeColor};
+  }
 `;
 
 const GenderContainer = styled.div`
@@ -200,7 +215,7 @@ const SummaryContainer = styled.div`
     :last-child {
       border-right: none;
     }
-    padding: 16px 0;
+    padding: ${BASE_SPACING_UNIT}px 0;
     flex: 1;
     text-align: center;
   }
@@ -208,7 +223,7 @@ const SummaryContainer = styled.div`
 
 const Stat = styled.div`
   font-weight: bold;
-  font-size: 3rem;
+  font-size: 2rem;
   color: ${colorManager.lighten(0.3).hex()};
 `;
 
@@ -370,7 +385,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { selectedState, data } = this.props;
     const prevData = prevProps.data;
     const prevSelectedState = prevProps.selectedState;
@@ -390,7 +405,8 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
       targets: contentContainerEl,
       easing: "easeOutCubic",
       duration: 1000,
-      translateX: ["-100%", 0]
+      opacity: [0, 1],
+      translateX: ["-10%", 0]
     }).finished;
     anime({
       targets: contentEl,
@@ -1015,18 +1031,22 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     const incidents = selectedState.values;
     return (
       <SelectedStateContainer>
-        <div>
+        <SelectedStateTitleContainer>
           <PadMain left={BASE_SPACING_UNIT * 10}>
-            <H1>{selectedState.key}</H1>
+            <SelectedStateTitle>
+              <H1>{selectedState.key}</H1>
+            </SelectedStateTitle>
           </PadMain>
-        </div>
+        </SelectedStateTitleContainer>
         <SelectedStateContent>
-          <PadMain left={BASE_SPACING_UNIT * 10}>
-            <Incidents>
-              {incidents.map((incident, i) =>
-                MotherJonesMassShootings.renderIncident(incident, i)
-              )}
-            </Incidents>
+          <PadMain left={BASE_SPACING_UNIT * 10} top={BASE_SPACING_UNIT * 10}>
+            <SelectedStateIncidentsContainer>
+              <SelectedStateIncidents>
+                {incidents.map((incident, i) =>
+                  MotherJonesMassShootings.renderIncident(incident, i)
+                )}
+              </SelectedStateIncidents>
+            </SelectedStateIncidentsContainer>
           </PadMain>
         </SelectedStateContent>
       </SelectedStateContainer>
@@ -1035,11 +1055,11 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
 
   static renderIncident(incident, key) {
     return (
-      <IncidentContainer key={key}>
+      <SelectedStateIncident key={key}>
         <P>{incident.moment.format("MMMM DD, YYYY")}</P>
-        <H2>{incident.case}</H2>
+        <H3>{incident.case}</H3>
         <P>{incident.summary}</P>
-      </IncidentContainer>
+      </SelectedStateIncident>
     );
   }
 
