@@ -1,19 +1,10 @@
-// @flow
+
 import * as React from "react";
 import ResizeObserver from "resize-observer-polyfill";
-type Props = {
-  render: Object => React.Node,
-  container: React.Component<{
-    innerRef: ?HTMLDivElement
-  }>
-};
-type State = {
-  clientRect: ?Object,
-  resizeObserver: ?Object
-};
-export default class ClientRect extends React.Component<Props, State> {
-  containerEl: ?HTMLDivElement;
-  state: State = {
+
+export default class ClientRect extends React.Component {
+  containerEl;
+  state = {
     clientRect: null,
     resizeObserver: null
   };
@@ -45,7 +36,7 @@ export default class ClientRect extends React.Component<Props, State> {
     const { clientRect } = this.state;
 
     return (
-      //$FlowFixMe
+
       <C innerRef={el => (this.containerEl = el)}>
         {clientRect && this.props.render(clientRect)}
       </C>

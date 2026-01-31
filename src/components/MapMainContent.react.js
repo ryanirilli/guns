@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from "react";
 import styled from "styled-components";
 
@@ -39,11 +39,9 @@ const Footer = styled.div`
   }
 `;
 
-type Props = {
-  children?: ?React.Node | ?Array<React.Node>
-};
 
-class MapMainContent extends React.Component<Props> {
+
+class MapMainContent extends React.Component {
   render() {
     return <Container />;
   }

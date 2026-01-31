@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from "react";
 import { activeColor, inactiveColor } from "../styles/Colors";
 
@@ -6,10 +6,6 @@ export default ({
   gender,
   isActive,
   onClick
-}: {
-  gender?: string,
-  isActive?: boolean,
-  onClick?: () => void
 }) =>
   gender === "male" ? (
     <svg

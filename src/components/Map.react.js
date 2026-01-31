@@ -1,31 +1,13 @@
-// @flow
+
 import * as React from "react";
 import styled from "styled-components";
-import DeckGL, { GeoJsonLayer } from "deck.gl";
+import DeckGL from "deck.gl";
 import MapGL from "react-map-gl";
 import ResizeObserver from "resize-observer-polyfill";
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-type State = {
-  viewport: {
-    width: number,
-    height: number,
-    longitude: number,
-    latitude: number,
-    zoom: number,
-    pitch: number,
-    bearing: number
-  },
-  layers: Array<Object>,
-  resizeObserver: ?Object
-};
 
-type Props = {
-  layers: Array<GeoJsonLayer>,
-  showGunLayer?: boolean,
-  showAllOtherCrime?: boolean
-};
 
 const Container = styled.div`
   position: absolute;
@@ -35,14 +17,14 @@ const Container = styled.div`
   width: 100%;
 `;
 
-class Map extends React.Component<Props, State> {
+class Map extends React.Component {
   containerEl = null;
 
   static defaultProps = {
     layers: []
   };
 
-  state: State = {
+  state = {
     resizeObserver: null,
     viewport: {
       width: 0,
@@ -56,7 +38,7 @@ class Map extends React.Component<Props, State> {
     layers: []
   };
 
-  componentDidMount(): void {
+  componentDidMount() {
     const { containerEl } = this;
     if (containerEl == null) {
       return;
@@ -79,7 +61,7 @@ class Map extends React.Component<Props, State> {
     resizeObserver && resizeObserver.disconnect();
   }
 
-  render(): React.Node {
+  render() {
     const { layers } = this.props;
     const { viewport } = this.state;
     return (

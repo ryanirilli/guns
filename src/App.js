@@ -1,4 +1,4 @@
-// @flow
+
 import "rc-slider/assets/index.css";
 import React, { Component } from "react";
 import { BarLoader } from "react-spinners";
@@ -62,22 +62,16 @@ const GoToDataButton = styled.button`
   }
 `;
 
-type Props = {};
 
-type State = {
-  isTypeKitLoaded: boolean,
-  hasIntroLoaded: boolean,
-  isShowingDashboard: boolean
-};
 
-class App extends Component<Props, State> {
-  hasAnimatedIn: boolean = false;
-  mainBgEl: ?HTMLDivElement;
-  titleEl: ?HTMLElement;
-  contentEl: ?HTMLElement;
-  goToDataButtonEl: ?HTMLElement;
+class App extends Component {
+  hasAnimatedIn = false;
+  mainBgEl;
+  titleEl;
+  contentEl;
+  goToDataButtonEl;
 
-  state: State = {
+  state = {
     isTypeKitLoaded: false,
     hasIntroLoaded: false,
     isShowingDashboard: false
@@ -97,7 +91,7 @@ class App extends Component<Props, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps, prevState) {
     const { hasIntroLoaded, isTypeKitLoaded } = this.state;
     if (hasIntroLoaded && isTypeKitLoaded && !this.hasAnimatedIn) {
       this.animateIn();

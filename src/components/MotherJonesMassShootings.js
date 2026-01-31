@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from "react";
 import * as d3 from "d3";
 import styled from "styled-components";
@@ -314,41 +314,15 @@ const ResetFiltersContainer = styled.button`
   }
 `;
 
-type Props = {
-  data: Array<Object>,
-  data: Array<Object>,
-  fetchData: () => void,
-  selectedState: ?Object,
-  setSelectedState: (?Object) => void,
-  selectedRace: ?string,
-  setSelectedRace: (?string) => void,
-  setMotherJonesFilteredData: (Array<Object>) => void,
-  selectedGender: Object,
-  setSelectedGender: Object => void,
-  selectedYearRange: Array<number>,
-  setYearRange: (Array<number>) => void,
-  prevSign: ?string,
-  setPrevSign: (?string) => void,
-  selectedVenue: ?string,
-  setSelectedVenue: (?string) => void,
-  resetFilters: () => void
-};
 
-type State = {
-  summaryHeight: number,
-  raceAndYearLabelsHeight: number,
-  filtersHeight: number,
-  prevSignsLabelsHeight: number,
-  titleContainerHeight: number
-};
 
-class MotherJonesMassShootings extends React.Component<Props, State> {
-  contentEl: ?HTMLDivElement;
-  mapEl: ?HTMLDivElement;
-  contentContainerEl: ?HTMLDivElement;
-  resetFiltersEl: ?HTMLDivElement;
+class MotherJonesMassShootings extends React.Component {
+  contentEl;
+  mapEl;
+  contentContainerEl;
+  resetFiltersEl;
 
-  state: State = {
+  state = {
     summaryHeight: 0,
     raceAndYearLabelsHeight: 0,
     filtersHeight: 0,
@@ -425,7 +399,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     });
   }
 
-  render(): React.Node {
+  render() {
     return (
       <Container>
         <MapContainer innerRef={el => (this.mapEl = el)}>
@@ -638,9 +612,9 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
   }
 
   async setSelectedState(
-    state: Object,
-    selectedState: ?Object,
-    massShootingsByState: Array<Object>
+    state,
+    selectedState,
+    massShootingsByState
   ) {
     const _selectedState = massShootingsByState.find(
       item => item.key === state.object.properties.name
@@ -657,7 +631,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     this.props.setSelectedState(selected);
   }
 
-  renderYearSlider(): React.Node {
+  renderYearSlider() {
     const { data, selectedYearRange } = this.props;
     const minYear = parseInt(d3.min(data, d => d.moment.format("YYYY")), 10);
     const maxYear = parseInt(d3.max(data, d => d.moment.format("YYYY")), 10);
@@ -694,7 +668,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   }
 
-  renderRaceAndYearCharts(chartHeight: number) {
+  renderRaceAndYearCharts(chartHeight) {
     return (
       <PadMain
         top={0}
@@ -745,7 +719,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   }
 
-  renderRaceGraph = (clientRect: Object, chartHeight: number) => {
+  renderRaceGraph = (clientRect, chartHeight) => {
     const { selectedRace, data } = this.props;
     const massShootingsByRace = d3
       .nest()
@@ -790,7 +764,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   };
 
-  renderVenueChart = (clientRect: Object, chartHeight: number) => {
+  renderVenueChart = (clientRect, chartHeight) => {
     const { data, selectedVenue } = this.props;
     const venues = d3
       .nest()
@@ -842,7 +816,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   };
 
-  renderMentalHealthChart = (clientRect: Object, chartHeight: number) => {
+  renderMentalHealthChart = (clientRect, chartHeight) => {
     const { data, setPrevSign, prevSign } = this.props;
     const prevSignsOfMentalHealth = d3
       .nest()
@@ -908,7 +882,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   };
 
-  renderYearLineChart = (clientRect: Object, chartHeight: number) => {
+  renderYearLineChart = (clientRect, chartHeight) => {
     const { data } = this.props;
     const massShootingsByYear = d3
       .nest()
@@ -998,27 +972,27 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   }
 
-  formatNumber(number: number): string {
+  formatNumber(number) {
     return numbro(number).format({
       thousandSeparated: true
     });
   }
 
-  handleRaceSelect = (datapoint): void => {
+  handleRaceSelect = (datapoint) => {
     const { selectedRace } = this.props;
     let race = datapoint.x === "native" ? "native american" : datapoint.x;
     race = race === selectedRace ? null : race;
     this.props.setSelectedRace(race);
   };
 
-  handleVenueSelect = (datapoint): void => {
+  handleVenueSelect = (datapoint) => {
     const { selectedVenue } = this.props;
     let venue = datapoint.x;
     venue = venue === selectedVenue ? null : venue;
     this.props.setSelectedVenue(venue);
   };
 
-  static getRaceFromItem(item: Object): string {
+  static getRaceFromItem(item) {
     let itemRace = item.race.trim().toLowerCase();
     return itemRace === "-" || itemRace === "unclear" ? "other" : itemRace;
   }
@@ -1063,15 +1037,15 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     );
   }
 
-  toggleGender(gender: string): void {
+  toggleGender(gender) {
     const genders = { ...this.props.selectedGender };
     genders[gender] = !genders[gender];
     this.props.setSelectedGender(genders);
   }
 
   getFilteredResults(
-    items?: ?Array<Object>,
-    excludes?: { [string]: boolean } = {}
+    items,
+    excludes = {}
   ) {
     const {
       data,
@@ -1136,7 +1110,7 @@ class MotherJonesMassShootings extends React.Component<Props, State> {
     return items ? items.filter(isMatch) : data.filter(isMatch);
   }
 
-  async contentTransition(direction?: boolean) {
+  async contentTransition(direction) {
     const { contentEl, resetFiltersEl } = this;
     if (!contentEl || !resetFiltersEl) {
       return;
