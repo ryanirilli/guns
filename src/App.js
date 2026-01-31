@@ -5,9 +5,9 @@ import { BarLoader } from "react-spinners";
 import styled from "styled-components";
 import anime from "animejs";
 import WebFont from "webfontloader";
-import MdPlayArrow from "react-icons/lib/md/play-arrow";
 
-import Map from "./components/Map.react";
+
+
 import MotherJonesMassShootings from "./components/MotherJonesMassShootings";
 
 import { AbsoluteFill } from "./styles/Layouts";
@@ -38,16 +38,7 @@ const IntroContent = styled.div`
   flex-direction: column;
 `;
 
-const AboutContainer = styled.div`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999999;
-`;
 
-const AboutContent = styled.div`
-  background: red;
-`;
 
 const GoToDataButton = styled.button`
   background: white;

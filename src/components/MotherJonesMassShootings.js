@@ -33,7 +33,7 @@ import {
 import "../../node_modules/react-vis/dist/style.css";
 import { BASE_SPACING_UNIT } from "../styles/Foundation";
 import { PadMain } from "../styles/Padding";
-import { H1, H2, H3, P, A } from "../styles/Headings";
+import { H1, H3, P, A } from "../styles/Headings";
 import { AbsoluteFill, FlexFill } from "../styles/Layouts";
 
 import * as motherJonesActions from "../actions/motherJonesMassShootings.actions";
